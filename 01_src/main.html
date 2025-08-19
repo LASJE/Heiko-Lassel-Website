@@ -1,0 +1,177 @@
+<main id="grid-container" aria-label="Grid">
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <!-- Stage - Grid -->
+    <div id="hero-stage" class="hero__stage" aria-hidden="true"></div>    
+
+    <!-- Settings-Button -->
+    <button class="settings-btn" aria-label="Einstellungen">
+      <i class="fa-solid fa-gear" aria-hidden="true"></i>
+    </button>
+
+    <!-- Tech-Skills -->
+    <div class="tech-skill" aria-hidden="true">
+      <div class="skill skill--html">HTML</div>
+      <div class="skill skill--css">CSS</div>
+      <div class="skill skill--js">JS</div>
+      <div class="skill skill--php">PHP</div>
+    </div>
+
+    <!-- Headline + Slider -->
+    <div class="hero__content">
+      <h1>Creative Engineering</h1>
+      <p>Elegant Systems. Zero-friction Interfaces.</p>
+
+      <!-- Slide-to-build -->
+      <div class="unlock" id="unlock" data-target="#contact" aria-label="Slide to build">
+        <span class="unlock__hint">slide to build</span>
+        <div class="unlock__track">
+          <div class="unlock__fill" aria-hidden="true"></div>
+          <span class="unlock__under" aria-hidden="true"></span>
+          <button class="unlock__button"
+                  type="button"
+                  role="slider"
+                  aria-label="Slide to build"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0">➔</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section id="showcase" class="showcase">
+    <!-- Stage - Grid -->
+    <div id="showcase-stage" class="showcase__stage" aria-hidden="true"></div>
+
+    <!-- Studio - Social Icons List – Hover -->
+    <aside class="side-iconlist" aria-hidden="true">
+      <nav class="side-iconlist__icons">
+        <a class="gh" href="https://github.com/LASJE" title="GitHub" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+        </a>
+        <a class="cp" href="https://codepen.io/LASJE" title="CodePen" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-codepen" aria-hidden="true"></i>
+        </a>
+        <a class="ig" href="https://www.instagram.com/lasje_536/" title="Instagram" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a class="mail" href="mailto:info.heikolassel@gmail.com" title="E-Mail">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Typo-Hinweis -->
+    <aside class="sc-heading">
+      <h2><span>Creative</span><span>Collection</span></h2>
+      <small>Swipe · Click · Arrows</small>
+    </aside>
+
+    <!-- Carousel-Slide - via JS -->
+    <article class="sc-panel" tabindex="0" aria-roledescription="carousel"><!-- JS füllt --></article>
+
+    <!-- Navigation -->
+    <button class="sc-nav sc-prev" aria-label="Vorherige">
+      <i class="fa-solid fa-angle-left" aria-hidden="true"></i>
+    </button>
+    <button class="sc-nav sc-next" aria-label="Nächste">
+      <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
+    </button>
+
+    <!-- Fortschritt -->
+    <div class="sc-nav-progress">
+      <div class="sc-nav-tick"><!-- JS füllt --></div>
+    </div>
+  </section>
+
+  <!-- ▣ VISION -->
+  <section id="vision" class="vision">
+    <!-- Stage (Grid/Lines) -->
+    <div id="vision-stage" class="vision__stage" aria-hidden="true"></div>
+    <!-- Vision-Glow (deine Farben) -->
+
+    <!-- Visor/Brille -->
+    <div class="vg-wrap">
+      <div class="vg-scene">
+        <div class="vision-goggles">
+          <svg class="vg" viewBox="0 0 177 102" aria-hidden="true">
+            <defs>
+              <!-- Blur -->
+              <filter id="vg-blur"><feGaussianBlur stdDeviation="6"/></filter>
+
+              <!-- Clip: Visor-Form -->
+              <clipPath id="vg-clip">
+                <path d="M2.5 53.5C2.5 41.3684 6.62959 28.795 19.1488 19.1694C31.7795 9.45806 53.2656 2.5 88.5 2.5C123.734 2.5 145.22 9.45806 157.851 19.1694C170.37 28.795 174.5 41.3684 174.5 53.5C174.5 70.3828 168.735 81.6976 161.164 88.802C153.537 95.9601 143.913 99 136 99C121.884 99 112.335 91.9213 104.22 85.8534L104.136 85.7904C101.516 83.8308 98.9541 81.9153 96.4845 80.502C93.9848 79.0716 91.3231 78 88.5 78C85.6769 78 83.0152 79.0716 80.5155 80.502C78.0459 81.9153 75.4844 83.8308 72.8638 85.7904L72.7796 85.8534C64.6651 91.9213 55.1163 99 41 99C33.0872 99 23.4632 95.9601 15.8358 88.802C8.26547 81.6976 2.5 70.3828 2.5 53.5Z" fill="white"/>
+              </clipPath>
+
+              <!-- Bezel -->
+              <linearGradient id="vg-bezel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#ffffff66"/>
+                <stop offset="50%" stop-color="#ffffff10"/>
+                <stop offset="100%" stop-color="#00000055"/>
+              </linearGradient>
+
+              <!-- Farb-Sweep -->
+              <linearGradient id="vg-sweep" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#ff2d95"/>
+                <stop offset="45%"  stop-color="#ffd43b"/>
+                <stop offset="70%"  stop-color="#00ffe6"/>
+                <stop offset="100%" stop-color="#8ee7ff"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Glas -->
+            <g clip-path="url(#vg-clip)">
+              <rect x="0" y="0" width="177" height="102" fill="#0b0f14"/>
+              <ellipse cx="88.5" cy="51" rx="100" ry="60" fill="#00000066"/>
+              <ellipse cx="88.5" cy="51" rx="80"  ry="46" fill="#111a2466"/>
+
+              <!-- Glow -->
+              <g class="vg-glow">
+                <circle cx="90.5" cy="51" r="75" fill="none" stroke="url(#vg-sweep)" stroke-width="18" filter="url(#vg-blur)" opacity="0.9"/>
+                <circle cx="90.5" cy="51" r="75" fill="none" stroke="url(#vg-sweep)" stroke-width="7"/>
+              </g>
+
+              <!-- Reflex -->
+              <ellipse cx="90.5" cy="96" rx="70" ry="14" fill="#00000055"/>
+            </g>
+
+            <!-- Außenkontur -->
+            <path d="M2.5 53.5C2.5 41.3684 6.62959 28.795 19.1488 19.1694C31.7795 9.45806 53.2656 2.5 88.5 2.5C123.734 2.5 145.22 9.45806 157.851 19.1694C170.37 28.795 174.5 41.3684 174.5 53.5C174.5 70.3828 168.735 81.6976 161.164 88.802C153.537 95.9601 143.913 99 136 99C121.884 99 112.335 91.9213 104.22 85.8534L104.136 85.7904C101.516 83.8308 98.9541 81.9153 96.4845 80.502C93.9848 79.0716 91.3231 78 88.5 78C85.6769 78 83.0152 79.0716 80.5155 80.502C78.0459 81.9153 75.4844 83.8308 72.8638 85.7904L72.7796 85.8534C64.6651 91.9213 55.1163 99 41 99C33.0872 99 23.4632 95.9601 15.8358 88.802C8.26547 81.6976 2.5 70.3828 2.5 53.5Z"
+                  fill="none" stroke="url(#vg-bezel)" stroke-width="5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top-LED -->
+    <div class="top-led" aria-hidden="true"></div>
+
+    <!-- ClipPath - html- Overlay -->
+    <svg aria-hidden="true" width="0" height="0" style="position:absolute">
+      <defs>
+        <clipPath id="visor-html-clip" clipPathUnits="objectBoundingBox">
+          <!-- Typo - Path -->
+          <path d="
+            M0.014 0.525
+            C0.014 0.406 0.037 0.282 0.108 0.188
+            C0.180 0.093 0.300 0.025 0.500 0.025
+            C0.700 0.025 0.820 0.093 0.892 0.188
+            C0.963 0.282 0.986 0.406 0.986 0.525
+            C0.986 0.690 0.953 0.801 0.909 0.871
+            C0.865 0.941 0.809 0.971 0.768 0.971
+            C0.689 0.971 0.636 0.921 0.588 0.885
+            C0.571 0.873 0.554 0.861 0.538 0.852
+            C0.521 0.842 0.502 0.835 0.500 0.835
+            C0.498 0.835 0.479 0.842 0.462 0.852
+            C0.446 0.861 0.429 0.873 0.412 0.885
+            C0.364 0.921 0.311 0.971 0.232 0.971
+            C0.191 0.971 0.135 0.941 0.091 0.871
+            C0.047 0.801 0.014 0.690 0.014 0.525Z"/>
+        </clipPath>
+      </defs>
+    </svg>
+  </section>
+</main> 

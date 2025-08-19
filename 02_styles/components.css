@@ -1,0 +1,734 @@
+/* ===============================================================
+   Global Reset
+   =============================================================== */
+*,
+*:before,
+*:after {
+  /* Abstand */
+  margin: 0;
+  padding: 0;
+
+  /* Layout */
+  box-sizing: border-box;
+}
+
+/* ===============================================================
+   Root / Page
+   =============================================================== */
+html,
+body {
+  /* Größe */
+  width: 100%;
+  height: 100%;
+
+  /* Verhalten */
+  overflow: auto;
+
+  /* Farbe / Stil */
+  background-color: #f5f7f9;
+}
+
+/* ===============================================================
+   Canvas
+   =============================================================== */
+canvas {
+  /* Layout */
+  display: block;
+}
+
+/* ===============================================================
+   === Hero - Settings-Icon Button ===
+   =============================================================== */
+.settings-btn {
+  /* Position */
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  /* Größe */
+  width: 52px;
+  height: 52px;
+
+  /* Abstand */
+  margin-left: auto;
+  margin-right: 0px;
+
+  /* Ecken */
+  border-radius: 16px;
+  border: 2.2px;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Verhalten */
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s, border 0.3s;
+
+  /* Layer */
+  z-index: 10;
+
+  /* Farbe / Stil */
+  background: rgba(155, 104, 104, 0.06); 
+  border: 1px solid #ffffff22; 
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 0 10px #ffffff08, 0 0 12px #0003;
+}
+
+/* ===============================================================
+   === Hero - Settings-Icon - Styling ===
+   =============================================================== */
+.settings-btn .fa-gear {
+  /* Typografie */
+  font-size: 2rem;
+
+  /* Farbe / Stil */   
+  background: linear-gradient(250deg,#2be4ff,#1263ff);
+  -webkit-background-clip: text; 
+  color: transparent; 
+  transition: color 0.18s;
+}
+
+/* ===============================================================
+   === Hero - Settings-Icon - Press Style - Touch/Mouse ===
+   =============================================================== */
+.settings-btn.is-press {
+  /* Farbe / Stil */
+  background: #ffffff;
+  border: 2px solid #00000068;
+  box-shadow: 0 4px 20px #1a203526, inset 0 0 10px #ffffff08, 0 0 12px #0003;
+  backdrop-filter: blur(4px);
+}
+
+/* ===============================================================
+   === Hero - Settings-Icon - Animation ===
+   =============================================================== */
+.settings-btn .fa-gear.spin {
+  /* Verhalten */
+  animation: spinGear 1.2s cubic-bezier(.67,0,.23,1.08) 1;
+}
+
+@keyframes spinGear {
+  to { transform: rotate(360deg); }
+}
+/* ===============================================================
+   === Hero - Settings-Icon - Hover ===
+   =============================================================== */
+/* Desktop-Hover */
+@media (hover: hover) {
+  .settings-btn:hover {
+    /* Farbe / Stil */
+    background: #ffffff;
+    border: 2px solid #00000068;
+    box-shadow: 0 4px 20px #1a203526, inset 0 0 10px #ffffff08, 0 0 12px #0003;
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* ===============================================================
+   === Hero - Tech Skill List - Container ===
+   =============================================================== */
+.tech-skill {
+  /* Position */
+  position: absolute;
+  right: 100px;
+  top: 30px;
+
+  /* Layout */
+  display: flex;
+  gap: 10px;
+
+  /* Layer */
+  z-index: 4;
+}
+
+/* ===============================================================
+   === Hero - Tech Skill List - Basics ===
+   =============================================================== */
+.skill {
+  /* Typografie */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  /* Abstand */
+  padding: 0.35rem 0.6rem;
+
+  /* Ecken */
+  border-radius: 999px;
+  /* Verhalten */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+
+  /* Farbe / Stil */
+  background: rgba(155, 104, 104, 0.06); 
+  border: 1px solid #ffffff22; 
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 0 10px #ffffff08, 0 0 12px #0003;
+}
+
+/* =======================================================================
+   === Hero - Tech Skill List - Animation - Active - Right to Left ===
+   ======================================================================= */
+.tech-skill.active .skill       { transition-delay: 0s; } 
+.tech-skill.active .skill--php  { transition-delay: 0.00s; }
+.tech-skill.active .skill--js   { transition-delay: 0.20s; }
+.tech-skill.active .skill--css  { transition-delay: 0.30s; }
+.tech-skill.active .skill--html { transition-delay: 0.40s; }
+
+.tech-skill.active .skill {
+  /* Verhalten */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =======================================================================
+   === Hero - Tech Skill List - Animation - Inactive- Left to Right ===
+   ======================================================================= */
+.tech-skill:not(.active) .skill--html { transition-delay: 0.00s; }
+.tech-skill:not(.active) .skill--css  { transition-delay: 0.10s; }
+.tech-skill:not(.active) .skill--js   { transition-delay: 0.20s; }
+.tech-skill:not(.active) .skill--php  { transition-delay: 0.30s; }
+
+
+/* =======================================================================
+   === Hero - Tech Skill List - Animation - Reduced Motion Fallback ===
+   ======================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .skill {
+    /* Verhalten */
+    transition: none;
+    transform: none;
+  }
+}
+
+/* =======================================================================
+   === Hero - Tech Skill List - Variants ===
+   ======================================================================= */
+.skill--html { 
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#74b0ff 0%, #b17aff 100%); 
+  -webkit-background-clip: text; 
+  color: transparent; 
+}
+
+.skill--css { 
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#7ed3ff 0%, #3aa6ff 60%, #9bd0ff 100%); 
+  -webkit-background-clip: text;
+  color: transparent; 
+}
+
+.skill--js { 
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#3cff9d 0%, #00e892 60%, #59ffaa 100%); 
+  -webkit-background-clip: text; 
+  color: transparent;
+}
+
+.skill--php { 
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#ff6a3d 0%, #ff4fb2 100%); 
+  -webkit-background-clip: text; 
+  color: transparent; 
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Container ===
+   ======================================================================= */
+.unlock {
+  /* Position */
+  position: relative;
+
+  /* Größe */
+  width: 240px;
+  
+  /* Abstand */
+  margin-inline: auto;
+
+  /* Verhalten */
+  user-select: none;
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Track ===
+   ======================================================================= */
+.unlock__track {
+  /* Position / Layout */
+  position: relative;
+  
+  /* Größe */
+  height: 44px;
+  border-radius: 12px;
+
+  /* Verhalten */
+  overflow: hidden;
+  touch-action: none;
+
+  /* Farbe / Stil */
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 0 24px rgba(18,99,255,.25),
+    0 8px 40px rgba(0,0,0,.35);
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Fill ===
+   ======================================================================= */
+.unlock__fill {
+  /* Position */
+  position: absolute;
+  left: 4px;
+  top: 4px;
+
+  /* Größe */
+  height: 36px;
+  width: 0px;
+
+  /* Ecken */
+  border-radius: 12px;
+
+  /* Verhalten */
+  will-change: width;
+
+  /* Layer */
+  z-index: 0;
+
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#2be4ff,#1263ff);
+  opacity: 0.55;
+  filter: saturate(1.15);
+}
+
+.unlock--anim .unlock__fill {
+  /* Verhalten */
+  transition: width 180ms ease-out;
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Hint Text ===
+   ======================================================================= */
+.unlock__hint {
+  /* Position */
+  position: absolute;
+  inset: 0;
+  
+  /* Größe */
+  background-size: 200% 100%;
+
+  /* Layout */
+  display: grid;
+  place-items: center;
+
+  /* Typografie */
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  /* Verhalten */
+  pointer-events: none;
+  animation: unlock-shimmer 2.4s linear infinite;
+
+  /* Farbe / Stil */
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,.25),
+    rgba(255,255,255,.9),
+    rgba(255,255,255,.25) );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 10px rgba(0,0,0,.35);
+}
+
+@keyframes unlock-shimmer {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Under - Tumb ===
+   ======================================================================= */
+.unlock__under {
+  /* Position */
+  position: absolute;
+  top: 4px;
+  left: 4px;
+
+  /* Größe */
+  width: 36px;
+  height: 36px;
+
+  /* Ecken */
+  border-radius: 12px;
+
+  /* Verhalten */
+  pointer-events: none;
+
+  /* Layer */
+  z-index: 2;
+
+  /* Farbe / Stil */
+  background: linear-gradient(90deg,#2be4ff,#1263ff);
+  opacity: 0.95;
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Unlock Button ===
+   ======================================================================= */
+.unlock__button {
+  /* Position */
+  position: absolute;
+  top: 4px;
+  left: 4px;
+
+  /* Größe */
+  width: 36px;
+  height: 36px;
+
+  /* Ecken */
+  border: 0;
+  border-radius: 50%;
+
+  /* Layout */
+  display: grid;
+  place-items: center;
+
+  /* Typografie */
+  font-size: 22px;
+  line-height: 1.75;
+  color: #e9eef7;
+
+  /* Verhalten */
+  cursor: grab;
+  touch-action: none;
+
+  /* Layer */
+  z-index: 3;
+
+  /* Farbe / Stil */
+  background: #0a0a0a;
+  box-shadow:
+    inset 0 0 0 6px  #141414,
+    inset 0 0 0 12px #1e1e1e,
+    inset 0 0 0 18px #2a2a2a,
+    0 12px 20px rgba(0,0,0,.35),
+    0 2px 8px rgba(0,0,0,.25);
+}
+
+.unlock--anim .unlock__button {
+  /* Verhalten */
+  transition: left 180ms ease-out;
+}
+
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - unlock thrust ===
+   ======================================================================= */
+.unlock__thrust {
+  /* Position */
+  position: absolute;
+  top: 4px;
+  left: 4px;
+
+  /* Größe */
+  height: 36px;
+  border-radius: 12px;
+
+  /* Verhalten */
+  pointer-events: none;
+
+  /* Layer */
+  z-index: 1;
+
+  /* Farbe / Stil */
+  background: linear-gradient(
+    270deg,
+    rgba(30,170,255,.85) 0%,
+    rgba(0,140,255,.65) 22%,
+    rgba(0,140,255,0) 100%);
+  filter: saturate(1.1) blur(0.4px);
+  opacity: 0.9;
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Unlock Nozzle ===
+   ======================================================================= */
+.unlock__nozzle {
+  /* Position */
+  position: absolute;
+  right: -2px;
+  top: 50%;
+
+  /* Größe */
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  /* Verhalten */
+  pointer-events: none;
+  transform: translateY(-50%);
+
+  /* Farbe / Stil */
+  background: radial-gradient(
+    circle at 60% 50%,
+    rgba(255,255,255,.95) 0%,
+    rgba( 90,240,255,.70) 28%,
+    rgba(  0,180,255,.45) 50%,
+    rgba(  0,160,230,0)   76%);
+  mix-blend-mode: screen;
+  filter: blur(0.8px);
+}
+
+/* =======================================================================
+   === Hero - Unlock Slide Button - Unlock States ===
+   ======================================================================= */
+
+.unlock--dragging .unlock__button {
+  /* Verhalten */
+  cursor: grabbing;
+}
+
+.unlock--done .unlock__hint {
+  /* Verhalten */
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+/* ===============================================================
+   === Showcase - Navigation – Container ===
+   =============================================================== */
+.sc-nav{
+  /* Positionierung */
+  position: absolute;
+  top: 50%;
+
+  /* Größe */
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  /* Layout */
+  display: grid;
+  place-items: center;
+
+  /* Farbe / Stil */
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.12);
+  color: #eaf2ff;
+
+  /* Verhalten */
+  cursor: pointer;
+  transition: background-color .2s ease, transform .18s ease;
+  transform: translateY(-50%);
+
+  /* Layer */
+  z-index: 15; 
+}
+
+/* ===============================================================
+   === Showcase - Navigation – Prev - Next  ===
+   =============================================================== */
+
+.sc-prev{ 
+  left: clamp(12px, 3vw, 24px); 
+}
+.sc-next{ 
+  right: clamp(12px, 3vw, 24px); 
+}
+
+/* ===============================================================
+   === Showcase - Navigation – Hover  ===
+   =============================================================== */
+.sc-nav:hover{
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* ===============================================================
+   === Showcase - Social Icons List – Wrapper - Left  ===
+   =============================================================== */
+.side-iconlist {
+  /* Position */
+  position: absolute;
+  left: clamp(12px, 2.2vw, 28px);
+  top:  clamp(18px, 3vw, 40px);
+
+  /* Layer */
+  z-index: 20;
+}
+
+/* ===============================================================
+   === Showcase - Social Icons List – Icon List  ===
+   =============================================================== */
+.side-iconlist__icons {
+  /* Position */
+  position: absolute;
+  left: 0;
+  top: 10px;
+
+  /* Abstand */
+  gap: 12px;
+  
+  /* Layout */
+  display: grid;
+
+}
+
+/* ===============================================================
+   === Showcase - Social Icons List – Button  ===
+   =============================================================== */
+.side-iconlist__icons a {
+  /* Größe */
+  width: 42px;
+  height: 42px;
+
+  /* Layout */
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+
+  /* Verhalten */
+  text-decoration: none;
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+
+  /* Farbe / Stil */
+  color: #eaf2ff;
+  background-color: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* ===============================================================
+   === Showcase - Social Icons List – Hover  ===
+   =============================================================== */
+.side-iconlist__icons a:hover {
+  /* Farbe / Stil */
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+
+  /* Effekte */
+  transform: translateY(-2px);
+}
+
+/* Hover – Left Rotation - (Gerade) */
+.side-iconlist__icons a:nth-child(odd):hover {
+  /* Effekte */
+  transform: translateY(-2px) rotate(-7deg);
+}
+
+/* Hover – Right Rotation - (Ungerade) */
+.side-iconlist__icons a:nth-child(even):hover {
+  /* Effekte */
+  transform: translateY(-2px) rotate(7deg);
+}
+
+/* ===============================================================
+   === Showcase -  Sektion 02 - Nav Tick === 
+   =============================================================== */
+.sc-nav-tick span.active {
+  /* Größe */
+  height: 3px;
+
+  /* Farbe / Stil */
+  background: #ffffff;
+}
+
+/* ===============================================================
+   /*? Footer - Avatar
+   =============================================================== */
+.footer-avatar:hover {
+  /* Effekte */
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(255,92,26,0.4);
+}
+
+/* ===============================================================
+   /*? Footer - Site Links
+   =============================================================== */
+.footer-site a:hover {
+  /* Verhalten */
+  transform: scale(1.08);
+
+  /* Farbe / Stil */
+  color: #ff5c1a;
+
+  /* Effekte */
+  border-bottom-color: #ff5c1a;
+}
+
+/* ===============================================================
+   /*? Footer - Projects
+   =============================================================== */
+.footer-projects a:hover {
+  /* Farbe / Stil */
+  color: #fff;
+
+  /* Effekte */
+  transform: scale(1.12); /* kleiner Zoom nach vorne */
+}
+
+/* ===============================================================
+   /*? Footer - Social
+   =============================================================== */
+.footer-social a:hover {
+  /* Farbe / Stil */
+  color: #ff5c1a;
+
+  /* Effekte */
+  transform: scale(1.08);
+}
+
+/* ===============================================================
+   /*? Footer - Contact Unlock Button
+   =============================================================== */
+.unlock-btn:hover {
+  /* Farbe / Stil */
+  background: #ff5c1a;
+  color: #000;
+
+  /* Effekte */
+  transform: scale(1.08);
+}
+
+
+/* ===============================================================
+   /*? Footer - Contact Mail
+   =============================================================== */
+.contact-mail:hover {
+  /* Größe */
+  border-radius: 4px;
+
+  /* Abstand */
+  padding: 2px 6px;
+
+  /* Farbe / Stil */
+  color: #fff;
+  background: #ff5c1a;
+}
+
+/* ===============================================================
+   /*? Footer - Unlock Button
+   =============================================================== */
+.unlock-btn:hover {
+  /* Farbe / Stil */
+  background: #ff5c1a;
+  color: #000;
+
+  /* Effekte */
+  transform: scale(1.08);
+}
+
+/* ===============================================================
+   /*? Footer - Author
+   =============================================================== */
+.app__author:hover {
+  /* Effekte */
+  border-bottom-color: #fff;
+}

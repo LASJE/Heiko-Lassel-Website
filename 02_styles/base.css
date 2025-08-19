@@ -1,0 +1,205 @@
+/* ===============================================================
+   /* Global
+   =============================================================== */
+html, body {
+  /* Größe */
+  height: 100%;
+
+  /* Abstand */
+  margin: 0;
+
+  /* Layout */
+  box-sizing: border-box;
+  text-align: center;
+
+   /* Farbe / Stil */
+  background: #0a0f1f;
+  color: #000000;
+
+  /* Typografie */
+  font: 16px/1.5 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ===============================================================
+   /*! Header
+   =============================================================== */
+#site-header {
+  /* Abstand innen */
+  padding: 12px 16px;
+
+  /* Linie */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+#site-header h1 {
+  /* Abstand */
+  margin: 0;
+
+  /* Typografie */
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+
+/* ===============================================================
+   === Hero - Sektion 01 - Content - H1 === 
+   =============================================================== */
+.hero__content h1 {
+    /* Typografie */
+  font-size: clamp(2.6rem, 7vw, 5.6rem);
+  letter-spacing: 0.01em;
+
+  /* Abstand */
+  margin: 0 0 0.2em;
+}
+
+/* ===============================================================
+   === Showcase - Sektion 02 - Heading - Typo === 
+   =============================================================== */
+.sc-heading h2 {
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1;
+  letter-spacing: 0.2px;
+
+  /* Abstand */
+  margin: 0 0 10px 0;
+}
+
+.sc-heading h2 span { 
+  display: block;
+  
+  /* Farbe / Stil */
+  color: #eaf2ff; 
+}
+
+/* ===============================================================
+   === Showcase -  Sektion 02 - Panel - Typo === 
+   =============================================================== */
+.sc-panel  h3 {
+  /* Typografie */
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 700;
+
+  /* Farbe / Stil */
+  color: #eaf2ff;
+  text-shadow: 0 1px 10px rgba(0,0,0,.35);
+
+  /* Abstand */
+  margin: 0;
+}
+
+/* ===============================================================
+   === Vision - Sektion 03 - Visor Box - Typo  === 
+   =============================================================== */
+.visor-box .lead h3 {
+  /* Größe */
+  border: 0;
+
+  /* Abstand */
+  margin: 0;
+  padding: 0;
+
+  /* Verhalten */
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+
+  /* Farbe / Stil */
+  background: transparent;
+}
+
+.visor-box .step h4 {
+  /* Größe */
+  border: 0;
+
+  /* Abstand */
+  margin: 0;
+  padding: 0;
+
+  /* Verhalten */
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+
+  /* Farbe / Stil */
+  background: transparent;
+}
+
+/* ===============================================================
+   === Vision - Sektion 03 - Visor Box - Lead - Typo === 
+   =============================================================== */
+.visor-box .lead h3 {
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(18px, 2.4vw, 26px);
+}
+
+/* ===============================================================
+   === Vision - Sektion 03 - Visor Box - Step - Typo === 
+   =============================================================== */
+.visor-box .step h4 {
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+/* ===============================================================
+   === Vision - Sektion 03 - Visor Box Final - Typo === 
+   =============================================================== */
+.visor-box .final h3 {
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(16px, 2.2vw, 22px);
+}
+
+/* ===============================================================
+  /*? Footer
+   =============================================================== */
+#site-footer {
+  /* Abstand innen */
+  padding: 12px 16px;
+
+  /* Linie */
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ===============================================================
+   /*? Footer - Columns
+   =============================================================== */
+
+.footer-right h4 {
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(12px, 2vw, 14px);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  /* Abstand */
+  margin: 0 0 8px 0;
+
+  /* Farbe / Stil */
+  /* Fallback */
+  color: #ccc;     
+
+  /* Modern */         
+  color: oklch(78% 0 0);
+}
+
+/* ===============================================================
+   /*? Footer - Projects
+   =============================================================== */
+
+.footer-projects h4 {
+  /* Abstand */
+  margin: 0 0 8px 0;
+
+  /* Typografie */
+  font-weight: 800;
+  font-size: clamp(12px, 2vw, 14px);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  /* Farbe / Stil */
+  /* Fallback */
+  color: #ccc;     
+  /* Modern */
+  color: oklch(78% 0 0);
+}
