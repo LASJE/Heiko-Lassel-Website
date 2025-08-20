@@ -1066,7 +1066,7 @@ svg .node-dot {
 .footer-avatar {
   /* Position */
   position: absolute;
-  left: clamp(20px, calc(153.33px - 10.4167vw), 120px);
+  left: clamp(25px, calc(153.33px - 10.4167vw), 120px);
   top: 0px;
 
   /* Größe */
