@@ -392,8 +392,9 @@ svg .node-dot {
   display: flex;
   flex-direction: column;      
   justify-content: center;      
-  align-items: center;     
-
+  align-items: center;  
+  
+  /* Abstand */
   gap: 12px;
 
   /* Effekte */
