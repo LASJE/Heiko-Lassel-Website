@@ -174,7 +174,7 @@ svg {
   position: relative;
 
   /* Größe */
-  min-height: clamp(74vh, calc(20vh + 50vw), 90vh);
+  min-height: clamp(75vh, calc(20vh + 50vw), 90vh);
 
   /* Abstand */
   margin-bottom: 8px;
@@ -202,12 +202,12 @@ svg {
    === Hero - Sektion 01 - Viewport === 
    =============================================================== */
 @supports (height: 100dvh) {
-  .hero { min-height: clamp(74dvh, calc(20dvh + 50vw), 90dvh); }
+  .hero { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
 }
 
 /* Sonst svh (gegen Safari-Adressleisten) */
 @supports (height: 100svh) {
-  .hero { min-height: clamp(84svh, calc(20svh + 50vw), 90svh); }
+  .hero { min-height: clamp(85svh, calc(20svh + 50vw), 87svh); }
 }
 
 /* ===============================================================
@@ -285,7 +285,7 @@ svg .node-dot {
   position: relative;
 
   /* Größe */
-  min-height: clamp(74vh, calc(20vh + 50vw), 90vh);
+  min-height: clamp(85vh, calc(20vh + 50vw), 98vh);
 
   /* Abstand */
   margin-bottom: 24px;
@@ -309,6 +309,19 @@ svg .node-dot {
     0 12px 24px rgba(0, 0, 0, 0.3),
     0 4px 8px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+/* ===============================================================
+   === Showcase - Sektion 02 - Viewport === 
+   =============================================================== */
+
+@supports (height: 100dvh) {
+  .showcase { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
+}
+
+/* Sonst svh (gegen Safari-Adressleisten) */
+@supports (height: 100svh) {
+  .showcase { min-height: clamp(95svh, calc(20svh + 50vw), 97svh); }
 }
 
 /* ===============================================================
@@ -463,7 +476,7 @@ svg .node-dot {
   position: relative;
 
   /* Größe */
-  min-height: clamp(74vh, calc(20vh + 50vw), 90vh);
+  min-height: clamp(85vh, calc(20vh + 50vw), 98vh);
 
   /* Abstand */
   margin-bottom: 24px;
@@ -500,6 +513,19 @@ svg .node-dot {
     0 12px 24px rgba(0, 0, 0, 0.3),
     0 4px 8px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+/* ===============================================================
+   === vision - Sektion 02 - Viewport === 
+   =============================================================== */
+
+@supports (height: 100dvh) {
+  .vision { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
+}
+
+/* Sonst svh (gegen Safari-Adressleisten) */
+@supports (height: 100svh) {
+  .vision { min-height: clamp(95svh, calc(20svh + 50vw), 97svh); }
 }
 
 /* ===============================================================
