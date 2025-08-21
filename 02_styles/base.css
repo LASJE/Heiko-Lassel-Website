@@ -18,6 +18,9 @@ html, body {
 
   /* Typografie */
   font: 16px/1.5 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+   
+  /* Typografie */
+  scroll-behavior: smooth;
 }
 
 /* ===============================================================
