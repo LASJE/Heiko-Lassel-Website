@@ -29,22 +29,6 @@ button, a {
 }
 
 /* ===============================================================
-   /*! Scroll-Container
-   =============================================================== */
-
-.scroll-x {
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  scrollbar-width: none;
-}
-
-.scroll-x::-webkit-scrollbar {
-  display: none;
-}
-
-/* ===============================================================
    /*! Header
    =============================================================== */
 #site-header {
