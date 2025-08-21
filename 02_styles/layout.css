@@ -1096,8 +1096,8 @@ svg .node-dot {
   top: 0px;
 
   /* Größe */
-  width: clamp(100px, 18vw, 160px);
-  height: clamp(100px, 18vw, 160px);
+  width: clamp(110px, 18vw, 160px);
+  height: clamp(110px, 18vw, 160px);
 
   /* Layout */
   border-radius: 50%;
