@@ -19,8 +19,13 @@ html, body {
   /* Typografie */
   font: 16px/1.5 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
    
-  /* Typografie */
+  /* Verhalten */
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, a {
+  touch-action: manipulation;
 }
 
 /* ===============================================================
