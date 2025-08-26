@@ -1,1499 +1,1890 @@
-/* ------------------ Root ------------------ */
-:root {
-  /* Abstände & Grid */
-  --u: 8px;
-  --cols: 12;
-  --gap: calc(var(--u) * 1);
-
-  /* Farben */
-  --line: #ffffff;
-  --plate-border: #37a6b3;
-  --plate-fill: rgba(55, 166, 179, .15);
+/* ===============================================================
+   :root — Typography
+   =============================================================== */
+:root{
+  --fw-3: 300;
+  --fw-6: 600;
+  --fw-7: 700;
 }
 
 /* ===============================================================
-   === Grid- Sektion 00 - Container === 
+   Grid-Container
    =============================================================== */
 #grid-container {
-  /* Layout */
   display: grid;
-  grid-template-columns: repeat(var(--cols), 1fr);
-  gap: var(--gap);
-
-  /* Größe */
-  min-height: calc(100vh - 96px); /* grob: minus header/footer */
-
-  /* Abstand */
-  padding: var(--gap);
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: auto;
+  gap: 0;
+  padding: 0;
 }
 
 /* ===============================================================
-   === Grid - Sektion 00 - Tile === 
+   Global: Deko-Layer (SVG Grid)
    =============================================================== */
-.tile {
-  /* Positionierung */
-  position: relative;
-
-  /* Farbe / Stil */
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--line), transparent 94%),
-    color-mix(in srgb, #09142a, transparent 30%)
-  );
-
-  /* Abstand */
-  padding: 16px;
-
-  /* Effekt */
-  backdrop-filter: blur(1px);
-}
-
-/* ===============================================================
-   === Grid - Sektion 00 - Column & Row === 
-   =============================================================== */
-#hero {
-  grid-column: 1 / span 12;
-  grid-row: 1 / span 2;
-}
-
-#showcase {
-  grid-column: 1 / span 12;
-  grid-row: 3 / span 2;
-}
-
-#vision {
-  grid-column: 1 / span 12;
-  grid-row: 5 / span 2;
-}
-
-/* ===============================================================
-   === Grid - Sektion 00 - SVG Container === 
-   =============================================================== */
-svg {
-  /* Positionierung */
-  position: absolute;
+#bg-stage {
+  position: fixed;
   inset: 0;
-
-  /* Größe */
-  width: 100%;
-  height: 100%;
-}
-
-/* ===============================================================
-   === Grid - Sektion 00 - Tile - Glow === 
-   =============================================================== */
-.tile::after {
-  /* Inhalt */
-  content: "";
-
-  /* Positionierung */
-  position: absolute;
-  inset: 0;
-
-  /* Farbe / Stil */
-  border: 1px solid color-mix(in srgb, var(--line), transparent 80%);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--line), transparent 70%) inset;
-
-  /* Verhalten */
+  z-index: 1;
   pointer-events: none;
-}
-
-
-/* ===============================================================
-   === Header - Sektion 00 - Header Main (tighter) ===
-   =============================================================== */
-.header-main {
-  /* Abstand */
-  margin: 0 10px 10px 10px;
-  padding: clamp(12px, 2.4vw, 24px) clamp(14px, 3vw, 28px);
-
-  /* Layout */
-  border-radius: 0 0 24px 24px;
-  text-align: center;
-
-  /* Farbe / Stil */
-  color: #fff;
-  background: radial-gradient(120% 140% at 50% 100%, #10305f 0%, #081528 55%, #000 100%);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-
-  /* Effekte */
-  box-shadow:
-    0 -12px 24px rgba(0, 0, 0, 0.3),
-    0 -4px 8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+  mix-blend-mode: overlay;
+  opacity: 0.8;
 }
 
 /* ===============================================================
-   === Header - Sektion 00 - Header - Titel (tighter) ===
+   Global: Typografie-Baseline
    =============================================================== */
-.header-title .heading{
-  /* Typografie */
-  font-weight: 800;
-  font-size: clamp(1.60rem, 4.5vw, 3.20rem);
-  line-height: 1;
-  letter-spacing: 0.20px;
-
-  /* Abstand */
-  margin: 0 0 0.20em 0;
-}
-
-.header-title .heading span{
-  /* Layout */
-  display: inline;
-
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  text-shadow: 0 1px 10px rgba(0,0,0,0.35);
-}
-
-.header-title .heading span + span{
-  /* Abstand */
-  margin-left: 0.25em;
-}
-
-.header-title .sub-heading{
-  /* Layout */
-  display: block;
-
-  /* Typografie */
-  font-size: clamp(0.80rem, 1.4vw, 0.95rem);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  opacity: 0.85;
-  text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+html {
+  /* Baseline skaliert: min 10px, fluid bis max 18px */
+  font-size: clamp(8px, min(2vw, 3vh), 18px);
 }
 
 /* ===============================================================
-   === Hero - Sektion 01 - Container === 
+   Global: Body
    =============================================================== */
-.hero {
-  /* Positionierung */
-  position: relative;
+body {
+  margin: 0;
+  min-height: 100%;
+  background: transparent; /* wichtig: Sektionen sehen den Layer darunter */
+}
 
-  /* Größe */
-  min-height: clamp(75vh, calc(20vh + 50vw), 90vh);
-
-  /* Abstand */
-  margin-bottom: 8px;
-
-  /* Ecken */
-  border-radius: 24px;
-
-  /* Layout */
+/* ===============================================================
+   Header
+   =============================================================== */
+#site-header {
+  height: 56px;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  isolation: isolate;
-
-  /* Farbe / Stil */
-  background: radial-gradient(120% 140% at 50% 0%, #10305f 0%, #081528 55%, #000 100%);
-
-  /* Effekte */
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+  padding: 12px 16px;
+  background: transparent;
 }
 
 /* ===============================================================
-   === Hero - Sektion 01 - Viewport === 
+   Footer
    =============================================================== */
-@supports (height: 100dvh) {
-  .hero { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
-}
-
-/* Sonst svh (gegen Safari-Adressleisten) */
-@supports (height: 100svh) {
-  .hero { min-height: clamp(85svh, calc(20svh + 50vw), 87svh); }
+#site-footer {
+  height: 40px;
 }
 
 /* ===============================================================
-   === Hero - Sektion 01 - Stage === 
+   Global: Body - before
    =============================================================== */
-.hero__stage {
-  /* Positionierung */
-  position: absolute;
+body::before {
+  content: "";
+  position: fixed;
   inset: 0;
-
-  /* Layer */
-  z-index: 1;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      oklch(70.828% 0.00499 258.542) 0%,
+      oklch(0.62 0.03 260) var(--mid, 50%),
+      oklch(0.56 0.04 260) 100%
+    ),
+    radial-gradient(
+      farthest-corner at 20% 10%,
+      oklch(0.88 0.03 260 / 0.10),
+      transparent 60%
+    ),
+    radial-gradient(
+      farthest-corner at 80% 90%,
+      oklch(0.22 0.04 260 / 0.25),
+      transparent 70%
+    );
+  background-repeat: no-repeat;
 }
 
 /* ===============================================================
-   === Hero - Sektion 01 - Content === 
-   =============================================================== */
-.hero__content {
-  /* Positionierung */
-  position: relative;
-  max-width: 900px;
-  
-  /* Layer */
-  z-index: 2;
-
-  /* Layout */
-  text-align: center;
-  
-  /* Abstand */
-  padding: 8px 8px;
-
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, .35);
-}
-
-/* ===============================================================
-   === Hero - Sektion 01 - Content - P === 
-   =============================================================== */
-.hero__content p {
-   /* Typografie */
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  color: #cfe7ff;
-  
-  /* Abstand */
-  margin: 0.2em 0 1.1em;
-}
-
-/* ===============================================================
-   === Hero - Sektion 01 - Grid Layout  === 
+   Hero
    =============================================================== */
 #hero {
   grid-column: 1 / -1;
-}
+  grid-row: auto;
+  box-sizing: border-box;
 
-/* ===============================================================
-   === Hero - Sektion 01 - SVG Viewport  === 
-   =============================================================== */
-
-#hero-stage svg {
-  /* Größe */
-  width: 100%;
-  height: 100%;
-}
-
-svg .node-dot {
-  filter: url(#glow);
-}
-
-/* ===============================================================
-   === Showcase - Sektion 02 - Container === 
-   =============================================================== */
-.showcase {
-  /* Positionierung */
   position: relative;
+  height: clamp(80vh, calc(20vh + 50vw), 94vh);
 
-  /* Größe */
-  min-height: clamp(85vh, calc(20vh + 50vw), 98vh);
+  overflow: hidden; 
+  display: grid;
+  place-items: center;
+}
 
-  /* Abstand */
-  margin-bottom: 24px;
+/* ===============================================================
+   Hero - Card
+   =============================================================== */
+.ui-card {
+  position: relative;
+  width: 18rem;
+  height: 24rem;
+  border-radius: 1.8rem;
+  padding: 1rem;
 
-  /* Ecken */
-  border-radius: 24px;
-
-  /* Layout */
   display: flex;
-  flex-direction: column;     
-  align-items: center;         
-  justify-content: flex-start; 
-  overflow: hidden;
-  isolation: isolate;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: visible; /* nichts wird abgeschnitten */
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 
-  /* Farbe / Stil */
-  background: radial-gradient(120% 140% at 50% 100%, #10305f 0%, #081528 55%, #000000 100%);
-
-  /* Effekte */
+  z-index: 1;
+  background:
+  linear-gradient(
+    90deg,
+   oklch(0.56 0.04 260)  0%,
+    oklch(0.62 0.03 260) 50%,
+    oklch(0.56 0.04 260) 100%
+  );
   box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.634) inset,
+    inset 0 1px 0 rgb(255, 255, 255);
+}
+
+.ui-card:hover {
+  transform: translateY(-2px);
 }
 
 /* ===============================================================
-   === Showcase - Sektion 02 - Viewport === 
+   Hero - Card – Rahmen / Innenkante
    =============================================================== */
-
-@supports (height: 100dvh) {
-  .showcase { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
+.ui-card::before {
+  content: "";
+  position: absolute;
+  inset: -1rem;
+  pointer-events: none;
+  transition: inset 0.35s ease, border-radius 0.35s ease, box-shadow 0.35s ease;
+  border-radius: 2.6rem;
+  box-shadow: inset 0 0 0 1px #ffffff22;
 }
 
-/* Sonst svh (gegen Safari-Adressleisten) */
-@supports (height: 100svh) {
-  .showcase { min-height: clamp(95svh, calc(20svh + 50vw), 97svh); }
+.ui-card:hover::before {
+  inset: -0.5rem;
+  border-radius: 2.2rem;
+  box-shadow: inset 0 0 0 1px #ffffff15;
 }
 
 /* ===============================================================
-   === Showcase - Sektion 02 - Stage === 
+   Hero - Card – Abdunklungen / Shading
    =============================================================== */
-.showcase__stage {
-  /* Positionierung */
+.ui-edges {
   position: absolute;
   inset: 0;
-
-  /* Layer */
-  z-index: 1;
-
-  /* Verhalten */
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 /* ===============================================================
-   === Showcase - Sektion 02 - Heading Container === 
+   Hero - Card – Inhalt
    =============================================================== */
-.sc-heading {
-  /* Positionierung */
+.ui-content {
   position: relative;
+  z-index: 1;
+}
+
+.ui-title {
+  margin: 0 0 0.6rem 0;
+  font-weight: var(--fw-6);
+  color: #cfd7e6;
+  font-size: 1.25rem;
+}
+
+.ui-sub {
+  margin: 0;
+  padding-bottom: 0.7rem;
+  color: #ffffff66;
+  font-size: 0.85rem;
+  font-weight: var(--fw-3);
+  border-bottom: 1px solid #ffffff18;
+  max-width: 64%;
+}
+
+/* ===============================================================
+   Hero - Switch
+   =============================================================== */
+.ui-switch {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 4.6rem;
+  height: 1.9rem;
+}
+
+.ui-switch > input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* ===============================================================
+   Hero - Switch – Track (Hintergrund)
+   =============================================================== */
+.ui-track {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+  border-radius: 0.6rem;
+  background: radial-gradient(
+  circle at 50% 0%,
+  oklch(0.35 0.03 260) 0%,   /* helleres Blau-Schwarz */
+  oklch(0.20 0.02 260) 65%,  /* tieferes Blau-Schwarz */
+  oklch(0.12 0.01 260) 100%  /* fast Body-Dunkel */
+);
+  border: 1px solid #1e2731;
+  box-shadow:
+    inset 0 1px 0 #ffffff12,
+    inset 0 -10px 16px #0006,
+    0 2px 8px #0008;
+  transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* ===============================================================
+   Hero - Switch – Thumb (Schieber)
+   =============================================================== */
+.ui-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0.6rem;
+  width: 40%;
+  height: 36%;
+  transform: translateY(-50%);
+  border-radius: 0.3rem;
+  background: linear-gradient(180deg, #f7f9ff, #d7deee);
+  box-shadow:
+    inset 0 1px 2px #ffffffcc,
+    inset 0 -1px 1px #0003,
+    0 0 0 1px #0006,
+    0 3px 8px #0009;
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1.1);
+}
+
+/* ===============================================================
+   Hero - Switch – Aktiv
+   =============================================================== */
+.ui-switch:has(input:checked) .ui-track {
+  background: linear-gradient(180deg, #101621, #162235);
+  border-color: #2b8cff;
+  box-shadow:
+    inset 0 1px 0 #ffffff22,
+    0 0 0 1px #2b8cff33,
+    0 4px 10px #000a;
+}
+
+.ui-switch:has(input:checked) .ui-thumb {
+  transform: translate(1.35rem, -50%); /* weniger Weg nach rechts */
+}
+
+/* ===============================================================
+   Hero - Switch – Fokusring (Keyboard)
+   =============================================================== */
+.ui-switch > input:focus-visible + .ui-track {
+  outline: 2px solid #2b8cff;
+  outline-offset: 2px;
+}
+
+
+/* ===============================================================
+   Tech-Skills — Container
+   =============================================================== */
+.tech-skill {
+  /* Size */
+  gap: 1rem;
+
+  /* Position */
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+
+  /* Behavior */
+  display: flex;
+  flex-direction: column;
+
+  /* layer */
+  z-index: 10;
+
+  /* Visual */
+  opacity: 0;
+  transform: translateX(1rem);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.tech-skill.active {
+  /* Visual */
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===============================================================
+   Tech-Skill — Item (Badge)
+   =============================================================== */
+.skill {
+  /* Size */
+  width: 8rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+
+  /* Behavior */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+
+  /* Typography */
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
+  /* Visual */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  box-shadow:
+    0 1rem 1.5rem rgba(0, 0, 0, 0.28),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.06);
+}
+/* ===============================================================
+   Tech-Skill — Animation
+   =============================================================== */
+
+.tech-skill:not(.active) .skill {
+  /* Visual */
+  opacity: 0;
+  transform: translate3d(3.5rem, 0, 0);
+  will-change: transform, opacity;
+}
+
+.tech-skill.active .skill {
+  /* Visual */
+  animation: skill-glide 1s cubic-bezier(0.3, 0.0, 0.2, 1) both;
+}
+
+@keyframes skill-glide {
+  0%   { transform: translate3d(3.5rem, 0, 0); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0);     opacity: 1; }
+}
+
+/* ===============================================================
+   Tech-Skill — Text (Gradient Masking)
+   =============================================================== */
+.skill--html-text,
+.skill--css-text,
+.skill--js-text,
+.skill--php-text {
+  /* Behavior */
+  display: inline-block;
+
+  /* Visual */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===============================================================
+   Tech-Skill — Gradients per Text
+   =============================================================== */
+.skill--html-text {
+  /* Visual */
+  background-image: linear-gradient(90deg, #f8fbff, #b17aff);
+}
+
+.skill--css-text {
+  /* Visual */
+  background-image: linear-gradient(90deg, #7ed3ff, #3aa6ff, #9bd0ff);
+}
+
+.skill--js-text {
+  /* Visual */
+  background-image: linear-gradient(90deg, #3cff9d, #00e892, #59ffaa);
+}
+
+.skill--php-text {
+  /* Visual */
+  background-image: linear-gradient(90deg, #ff6a3d, #ff4fb2);
+}
+
+/* ===============================================================
+   Statusbar
+   =============================================================== */
+.statusbar {
+  /* Size */
+  width: 9rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+
+  /* Position */
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+
+  /* Behavior */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 1rem;
+
+  /* Typography */
+  font-size: 1rem;
+  font-weight: var(--fw-7);
+  letter-spacing: 0.02em;
+
+  /* Visual */
+  color: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.10),
+    rgba(255, 255, 255, 0.06)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  box-shadow:
+    0 1rem 1.5rem rgba(0, 0, 0, 0.28),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ===============================================================
+   Statusbar — Icons (container)
+   =============================================================== */
+.sb-icons {
+  /* Size */
+  padding-inline: 0.5rem;
+
+  /* Behavior */
+  display: flex;
+  align-items: center;
+}
+
+/* spacing between children */
+.sb-icons > * + * {
+  margin-left: 0.5rem;
+}
+
+/* ===============================================================
+   Statusbar — Dot
+   =============================================================== */
+.sb-dot {
+  /* Size */
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+
+  /* Visual */
+  background: #59d1ff;
+  box-shadow: 0 0 1rem rgba(89, 209, 255, 0.28);
+}
+
+/* ===============================================================
+   Statusbar — Battery
+   =============================================================== */
+.sb-batt {
+  /* Size */
+  width: 1.5rem;
+  height: 0.8rem;
+  border-radius: 0.25rem;
+
+  /* Position */
+  position: relative;
+
+  /* Behavior */
+  overflow: hidden;
+
+  /* Visual */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* plug */
+.sb-batt::after {
+  /* Size */
+  width: 0.25rem;
+  height: 0.5rem;
+  border-radius: 0.125rem;
+
+  /* Position */
+  position: absolute;
+  top: 0.25rem;
+  right: -0.25rem;
+
+  /* Visual */
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* fill */
+.sb-batt-fill {
+  /* Size */
+  width: 60%;
+  top: 0;
+  bottom: 0;
+
+  /* Position */
+  position: absolute;
+  left: 0;
+
+  /* Visual */
+  background: linear-gradient(180deg, #c6f0ff, #97e0ff);
+}
+/* ===============================================================
+   Hero – Top LED (Animation von rechts nach links)
+   =============================================================== */
+.top-led {
+  /* Size */
+  width: 15rem;
+  height: 0.5rem;
+  border-radius: 999rem;
+
+  /* Position */
+  position: absolute;
+  top: -8rem;
+  left: 8rem;
+
+  /* Behavior */
+  isolation: isolate;
+  transform: translateX(100%);
 
   /* Layer */
   z-index: 5;
 
-  /* Abstand */
-  margin-top: clamp(16px, 4vh, 40px);
+  /* Visual */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.88));
+  box-shadow:
+    0 0 1rem 0.25rem rgba(255, 200, 120, 0.45),
+    0 0 2rem 1rem rgba(255, 160, 80, 0.30),
+    0 0.5rem 2.5rem 1.25rem rgba(255, 150, 60, 0.18);
+  opacity: 0;
+}
+.top-led.active {
+  /* Visual */
+  animation: led-slide-in 0.65s cubic-bezier(0.25, 0.85, 0.25, 1.05) forwards;
+}
 
-  /* Layout */
-  text-align: center;
-
-  /* Typografie */
-  color: #eaf2ff; 
+@keyframes led-slide-in {
+  0%   { transform: translateX(100%);  opacity: 0;   filter: blur(2px); }
+  60%  { transform: translateX(-48%); opacity: 1;   filter: blur(0.3px); }
+  100% { transform: translateX(-50%); opacity: 1;   filter: blur(0); }
 }
 
 /* ===============================================================
-   === Showcase - Sektion 02 - Heading - Typo === 
+   Hero – Top LED Glow Inside (Before)
    =============================================================== */
+.top-led::before {
+  /* Size */
+  inset: 0.25rem;
+  border-radius: inherit;
 
-.sc-heading small {
-  /* Layout */
-  display: block;
+  /* Position */
+  position: absolute;
 
-  /* Abstand */
-  margin-top: 10px;
-
-  /* Typografie */
-  opacity: 0.8;
-  font-size: clamp(12px, 1.8vw, 14px);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  /* Visual */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.00) 0%,
+      rgba(255, 255, 255, 0.85) 20%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0.85) 80%,
+      rgba(255, 255, 255, 0.00) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.92)
+    );
+  filter: blur(0.25rem);
 }
 
 /* ===============================================================
-   === Showcase -  Sektion 02 - Panel === 
+   Hero – Top LED Glow Outside (After)
    =============================================================== */
-.sc-panel {
-  /* Positionierung */
-  position: relative;
+.top-led::after {
+  /* Size */
+  inset: -0.5rem -2rem;
+  border-radius: inherit;
+
+  /* Position */
+  position: absolute;
+
+  /* Layer */
+  z-index: -1;
+
+  /* Visual */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 190, 110, 0.55) 0%,
+    rgba(255, 155, 70, 0.35) 40%,
+    rgba(255, 140, 60, 0.20) 60%,
+    rgba(255, 140, 60, 0.00) 70%
+  );
+  filter: blur(0.5rem) saturate(1.05);
+}
+
+/* ===============================================================
+   Hero — Welcome (depth reveal)
+   =============================================================== */
+.hero-welcome {
+  /* Position */
+  position: absolute;
+  top: -12rem;
+  left: 2.5rem;
+
+  /* Behavior */
+  perspective: 50rem;
+
+  /* Typography */
+  text-align: left;
 
   /* Layer */
   z-index: 10;
 
-  /* Layout */
-  flex-grow: 1;                  
-  display: flex;
-  flex-direction: column;      
-  justify-content: center;      
-  align-items: center;  
-  
-  /* Abstand */
-  gap: 12px;
-
-  /* Effekte */
-  transform: translateY(-6vh);   
+  /* Visual */
+  opacity: 0;
 }
 
-/* ===============================================================
-   === Showcase -  Sektion 02 - Panel - Typo === 
-   =============================================================== */
-.sc-panel  i {
-  /* Typografie */
-  font-size: clamp(54px, 6vw, 84px);
-  
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  text-shadow: 0 1px 10px rgba(0,0,0,.35);
-}
+.hero-welcome h1 {
+  /* Behavior */
+  transform-style: preserve-3d;
 
-.sc-panel p {
-  /* Typografie */
-  font-size: clamp(13px, 1.7vw, 15px);
-  color: #eaf2ff;
-  opacity: 0.85;
-  text-shadow: 0 1px 10px rgba(0,0,0,.35);
-
-  /* Abstand */
+  /* Typography */
   margin: 0;
+  font-size: 2.5rem;
+  font-weight: var(--fw-7);
+}
+
+.hero-welcome.active {
+  /* Visual */
+  opacity: 1;
+}
+
+.hero-welcome.active h1 {
+  /* Visual */
+  animation: welcome-depth 0.7s cubic-bezier(0.2, 0.85, 0.2, 1.05) forwards;
+}
+
+@keyframes welcome-depth {
+  0%   { transform: scale(0.6) rotateX(75deg); opacity: 0; filter: blur(0.375rem); }
+  60%  { transform: scale(1.05) rotateX(0deg); opacity: 1; filter: blur(0.25rem); }
+  100% { transform: scale(1)    rotateX(0deg); opacity: 1; filter: blur(0); }
 }
 
 /* ===============================================================
-   === Showcase -  Sektion 02 - Nav Progress === 
+   Hero — Bottom Left Text
    =============================================================== */
-.sc-nav-progress {
-  /* Positionierung */
+.bottom-left-text {
+  /* Position */
   position: absolute;
-  bottom: clamp(16px, 4vw, 36px);
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 1rem;
+  left: 2rem;
 
-  /* Layout */
-  display: flex;
-  gap: 10px;
+  /* Typography */
+  text-align: left;
+}
 
-  /* Layer */
-  z-index: 12;
+.bottom-left-text h1 {
+  /* Typography */
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: var(--fw-7);
+}
 
-  /* Verhalten */
-  pointer-events: none; 
+.bottom-left-text p {
+  /* Typography */
+  margin: 0;
+  font-size: 1.2rem;
+  font-style: italic;
 }
 
 /* ===============================================================
-   === Showcase -  Sektion 02 - Nav Tick === 
+   Showcase
    =============================================================== */
+#Showcase {
+  /* Size */
+  height: clamp(90vh, calc(20vh + 50vw), 94vh);
 
-.sc-nav-tick { 
-  /* Verhalten */
-  display: flex; 
-
-  /* Abstand */
-  gap: 10px; 
-}
-
-.sc-nav-tick span {
-  /* Größe */
-  width: 28px; 
-  height: 2px;
-
-  /* Ecken */
-  border-radius: 2px;
-
-  /* Farbe / Stil */
-  background: rgba(255,255,255,0.3);
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Container === 
-   =============================================================== */
-.vision {
-  /* Positionierung */
+  /* Position */
+  grid-column: 1 / -1;
+  grid-row: auto;
   position: relative;
 
-  /* Größe */
-  min-height: clamp(85vh, calc(20vh + 50vw), 98vh);
-
-  /* Abstand */
-  margin-bottom: 24px;
-
-  /* Ecken */
-  border-radius: 24px;
-
-  /* Layout */
+  /* Behavior */
   display: flex;
-  flex-direction: column;  
-  align-items: center;      
-  justify-content: flex-start; 
+  flex-direction: column;
   overflow: hidden;
-  isolation: isolate;
 
-  /* Farbe / Stil */
-  background:
-    radial-gradient(120% 140% at 50% 0%,
-      #10305f 0%,
-      #10305f 25%,
-      #081528 55%,
-      rgba(0,0,0,0.85) 85%,
-      #000000 100%),
-    radial-gradient(120% 140% at 50% 100%,
-      #10305f 0%,
-      #10305f 25%,
-      #081528 55%,
-      rgba(0,0,0,0.85) 85%,
-      #000000 100%),
-    #000000;
+  /* Visual */
+  box-sizing: border-box;
+}
 
-  /* Effekte */
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+
+@media (max-width: 768px) {
+  /* Links/Rechts-Striche als reine Overlays (kein Layout-Einfluss) */
+  #Showcase::before,
+  #Showcase::after {
+    content: "";
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 0.8rem;        /* dünner Strich */
+    height: 5rem;         /* Länge */
+    background: rgba(255, 255, 255, 0.218);
+    border-radius: 99rem;
+    pointer-events: none; /* klicks/swipes nicht blockieren */
+    z-index: 2;           /* über dem Board, unter Modals etc. */
+    opacity: 0.6;
+  }
+
+  #Showcase::before { left: 2.5rem; }
+  #Showcase::after  { right: 2.5rem; }
+}
+
+
+/* ===============================================================
+   Showcase — Head
+   =============================================================== */
+#Showcase .sc-head {
+  margin-top: 8rem;
+  /* Behavior */
+  display: grid;
+
+  /* Typography */
+  gap: 0.5rem;
+
+  /* Visual */
+  margin-bottom: 1.25rem;
 }
 
 /* ===============================================================
-   === vision - Sektion 02 - Viewport === 
+   Showcase — Title
    =============================================================== */
-
-@supports (height: 100dvh) {
-  .vision { min-height: clamp(75dvh, calc(20dvh + 50vw), 90dvh); }
-}
-
-/* Sonst svh (gegen Safari-Adressleisten) */
-@supports (height: 100svh) {
-  .vision { min-height: clamp(95svh, calc(20svh + 50vw), 97svh); }
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Stage === 
-   =============================================================== */
-.vision__stage {
-  /* Positionierung */
-  position: absolute;
-  inset: 0;
-  
-  /* Verhalten */
-  pointer-events: none;
-
-  /* Layer */
-  z-index: 1;
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - VG Wrap - Container === 
-   =============================================================== */
-.vg-wrap {
-  /* Layout */
-  display: flex;
-  justify-content: center; 
-  align-items: center;     
-
-  /* Größe */
-  width: 100%;
-  min-height: clamp(60vh, 80vh, 100vh); 
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - VG Scene  === 
-   =============================================================== */
-.vg-scene {
-  /* Positionierung */
-  position: relative;
-
-  /* Größe */
-  width: 100%;
-
-  /* Layout */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Vision-goggles -  === 
-   =============================================================== */
-
-#vision .vision-goggles .vg {
-  /* Positionierung */
-  position: static;              /* überschreibt absolutes SVG */
-  
-  /* Größe */
-  width: clamp(240px, 50vw, 840px);
-  height: auto;
-
-  /* Layout */
-  display: block;
-}
-
-#vision .vision-goggles {
-  /* Positionierung */
-  position: relative;
-
-    /* Layout */
-  display: inline-block;
-
-  /* Layer */
-  z-index: 2;
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Overlay === 
-   =============================================================== */
-.visor-box {
-  /* Positionierung */
-  position: absolute;
-  inset: 0;
-  /* Layout */
+#Showcase .sc-title {
+  /* Behavior */
   display: grid;
   place-items: center;
 
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  text-shadow: 0 2px 14px rgba(69, 69, 69, 0.55);
-
-  /* Layer */
-  z-index: 3;
-
-  /* Maske für Form */
-  clip-path: path("M2.5 53.5C2.5 41.3684 6.62959 28.795 ... 2.5 70.3828 2.5 53.5Z");
+  /* Typography */
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
+
+@media (max-width: 768px) {
+  #Showcase .sc-title {
+  font-size: 2.2rem;
+  }
+}
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Tape - Container === 
+   Showcase — Sub
    =============================================================== */
-
-.visor-box .tape {
-  /* Positionierung */
-  position: absolute;
-  inset: 0;
-
-  /* Layout */
+/* Desktop */
+#Showcase .sc-sub {
+  /* Behavior */
   display: grid;
+  place-items: center;
 
-  /* Abstand */
-  gap: 16px;
-  padding: 16px 12px;
+  /* Typography */
+  margin: 0;
+  font-size: 1rem;
 
-  /* Verhalten */
-  transform: translateY(0);
-  animation: visorTapeUpLoop 5s linear infinite;
+  /* Visual */
+  opacity: 0.75;
 }
 
-@keyframes visorTapeUpLoop {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
+/* 
+Mobile */
+@media (max-width: 768px) {
+  #Showcase .sc-sub {
+    /* Behavior */
+    display: grid;
+    place-items: center;
+
+    /* Typography */
+    margin: 0;
+    font-size: 1.6rem;
+    text-align: center;
+
+    /* Visual */
+    opacity: 0.75;
+    line-height: 1.6;
+    max-width: clamp(16ch, 60%, 22ch); /* pyramidenförmig am Handy */
+    margin-inline: auto; /* zentrieren */
+  }
+}
+/* ===============================================================
+   showcase - Board - Grid)
+   =============================================================== */
+
+/* mobile first */
+#dnd-board {
+  margin-top: 10rem;
+  margin-bottom: 2rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  gap: clamp(20px, 2vw, 42px);
+  grid-template-columns: repeat(12, 1fr);
+  display: grid;
+  counter-reset: sec 0;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  #dnd-board {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+
+    gap: 20rem;
+    /* REMOVE: padding-inline: calc((100% - 85%) / 2); */
+    align-items: stretch;
+    padding-block: 2rem;
+
+    /* ADD: */
+    position: relative;
+    overflow-y: hidden;
+    scroll-snap-stop: always;
+    /* REMOVE: scroll-padding-inline: calc((100% - 85%) / 2); */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 1.6rem), transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 1.6rem), transparent 100%);
+  }
+
+  /* ADD: Flex-Spacer für exaktes Zentrieren von erster/letzter Karte */
+  #dnd-board::before,
+  #dnd-board::after {
+    content: "";
+    flex: 0 0 calc((100% - 85%) / 2);
+  }
+
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Tape Mask  === 
+   showcase - Board – Cards, 4 Spalten
    =============================================================== */
-.visor-box .tape-mask {
-  /* Positionierung */
+#dnd-board .cluster {
+  /* Size */
+  border-radius: 14px;
+
+  /* Position */
+  grid-column: span 4;
+
+  /* Behavior */
+  display: grid;
+  gap: 1.4rem;
+  counter-increment: sec 1;
+
+  /* Visual */
+  padding: 12px 12px 14px;
+  background: color-mix(#0f1115, white 6% / 12%);
+  backdrop-filter: blur(8px) saturate(1.05);
+  border: 1px solid color-mix(in oklch, #e8eef7, transparent 86%);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+#dnd-board .cluster:hover {
+  /* Visual */
+  transform: translateY(-2px);
+  border-color: color-mix(in oklch, #e8eef7, transparent 75%);
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    
+}
+
+@media (max-width: 768px) {
+  #dnd-board .cluster {
+    flex: 0 0 85%;
+    min-height: 32rem;
+    scroll-snap-align: center;
+    box-shadow:
+    0 18px 22px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}
+
+
+/* ===============================================================
+   showcase - Board – Handle Ziehpunkt + Nummer
+   =============================================================== */
+#dnd-board .handle {
+  /* Size */
+  margin: 0;
+
+  /* Behavior */
+  cursor: grab;
+  user-select: none;
+
+  /* Typography */
+  font-size: 1rem;
+  font-weight: var(--fw-7);
+}
+
+@counter-style pad {
+  system: extends decimal;
+  pad: 2 "0";
+}
+
+#dnd-board .handle .label::before {
+  /* Size */
+  margin-right: 0.4rem;
+
+  /* Typography */
+  content: counter(sec, pad) ".00." counter(sec, pad) "  ";
+
+  /* Visual */
+  color: #cfd3d7;
+}
+
+/* ===============================================================
+   showcase - Board – Items / Stacks
+   =============================================================== */
+#dnd-board .stack {
+  /* Size */
+  margin: 0;
+  padding: 0 0 0 1rem;
+  gap: 0.22rem;
+
+  /* Behavior */
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  counter-reset: sub 0;
+}
+
+#dnd-board .unit {
+  /* Size */
+  padding: 2px 0;
+
+  /* Behavior */
+  counter-increment: sub 1;
+}
+
+#dnd-board .unit > .label::before {
+  /* Size */
+  margin-right: 0.4rem;
+
+  /* Typography */
+  content: counter(sec, pad) ".00." counter(sec, pad) "." counter(sub, pad) "  ";
+
+  /* Visual */
+  color: color-mix(in oklch, #e8eef7, transparent 35%);
+}
+
+/* ===============================================================
+   showcase - Board – Hover Accent
+   =============================================================== */
+#dnd-board :where(.label):hover {
+  /* Visual */
+  color: #7fd1ff;
+}
+
+/* ===============================================================
+   showcase - Board – Drag States
+   =============================================================== */
+#dnd-board .ghost {
+  /* Visual */
+  outline: 2px dashed #7fd1ff;
+  outline-offset: 3px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #7fd1ff22 0 2px,
+    transparent 2px 10px
+  );
+  color: transparent;
+}
+
+#dnd-board .sortable-chosen {
+  /* Visual */
+  opacity: 0.95;
+}
+
+/* ===============================================================
+   Section 3: Features
+   =============================================================== */
+#features {
+  /* Size */
+  height: clamp(100vh, calc(20vh + 50vw), 110vh);
+  margin: 0;
+  padding-block: clamp(24px, 4vw, 56px);
+  gap: clamp(20px, 3vw, 36px);
+
+  /* Position */
+  grid-column: 1 / -1;
+  grid-row: auto;
   position: relative;
 
-  /* Größe */
-  width: 80%;
-  height: 40%;
-
-  /* Layout */
+  /* Behavior */
+  display: grid;
+  align-content: start;
+  justify-items: center;
   overflow: hidden;
 
-  /* Maske */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-}
+  /* Layer */
+  z-index: 0;
 
-.visor-box .tape-mask::before {
-  /* Positionierung */
-  top: 0;
-
-  /* Farbe / Stil */
-  background: linear-gradient(to bottom, rgba(2,4,8,1), rgba(2,4,8,0));
-}
-
-.visor-box .tape-mask::after {
-  /* Positionierung */
-  bottom: 0;
-
-  /* Layout */
-  content: none;
-
-  /* Farbe / Stil */
-  background: linear-gradient(to top, rgba(2,4,8,1), rgba(2,4,8,0));
+  /* Visual */
+  box-sizing: border-box;
+  background: none;
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Typo  === 
+   Features — Head
    =============================================================== */
-.visor-box .step .num {
-  /* Größe */
-  border: 0;
-
-  /* Abstand */
-  margin: 0;
-  padding: 0;
-
-  /* Verhalten */
-  text-shadow: 0 2px 12px rgba(0,0,0,.45);
-
-  /* Farbe / Stil */
-  background: transparent;
-}
-
-.visor-box .lead p {
-  /* Größe */
-  border: 0;
-
-  /* Abstand */
-  margin: 0;
-  padding: 0;
-
-  /* Verhalten */
-  text-shadow: 0 2px 12px rgba(0,0,0,.45);
-
-  /* Farbe / Stil */
-  background: transparent;
-}
-
-.visor-box .step ul {
-  /* Größe */
-  border: 0;
-
-  /* Abstand */
-  margin: 0;
-  padding: 0;
-
-  /* Verhalten */
-  text-shadow: 0 2px 12px rgba(0,0,0,.45);
-
-  /* Farbe / Stil */
-  background: transparent;
-}
-
-.visor-box .final {
-  /* Größe */
-  border: 0;
-
-  /* Abstand */
-  margin: 0;
-  padding: 0;
-
-  /* Verhalten */
-  text-shadow: 0 2px 12px rgba(0,0,0,.45);
-
-  /* Farbe / Stil */
-  background: transparent;
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Lead - Container === 
-   =============================================================== */
-.visor-box .lead {
-  /* Layout */
+#features .feat-head {
+  /* Behavior */
   display: grid;
+
+  /* Typography */
+  gap: 0.5rem;
   text-align: center;
+}
 
-  /* Abstand */
-  gap: 8px;
+#features .feat-title {
+  /* Typography */
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#features .feat-sub {
+  /* Typography */
+  margin: 0;
+  font-size: 1rem;
+
+  /* Visual */
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  #features .feat-sub  {
+  font-size: 2rem;
+  }
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Lead - Typo === 
+   Features — Grid für Karten
    =============================================================== */
-.visor-box .lead p {
-  /* Typografie */
-  font-size: clamp(12px, 1.6vw, 14px);
-}
+#features .feat-grid {
+  /* Size */
+  width: min(1200px, 92vw);
+  gap: clamp(16px, 2.5vw, 28px);
 
-/* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Step - Container === 
-   =============================================================== */
-.visor-box .step {
-  /* Layout */
+  /* Behavior */
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
 
-  /* Abstand */
-  gap: 6px;
+/* Mobile: Features als Pyramide (1 oben, 2 unten) */
+@media (max-width: 768px) {
+  #features .feat-grid {
+    /* Size */
+    gap: 1.5rem;
+
+    /* Behavior */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: start;
+  }
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Step - Typo === 
+   Features — Karten (Glasoptik)
    =============================================================== */
-.visor-box .step .num {
-  /* Typografie */
-  font-weight: 800;
-  font-size: clamp(28px, 8vw, 64px);
-  line-height: 0.9;
-}
+#features .feat-card {
+  /* Size */
+  width: 21rem;
+  height: 18rem;
+  border-radius: 1rem;
+  margin-top: 8rem;
+  gap: 1.5rem;
 
-.visor-box .step ul {
-  /* Typografie */
-  font-size: clamp(11px, 1.6vw, 14px);
-  
-  /* Layout */
-  list-style: none;
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Visor Box - Final - Container === 
-   =============================================================== */
-.visor-box .final {
-  /* Layout */
+  /* Behavior */
   display: grid;
-  text-align: center;
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+  justify-items: center;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 
-  /* Abstand */
-  gap: 6px;
+  /* Visual */
+  background: color-mix(in oklch, #0f1115, white 6% / 12%);
+  backdrop-filter: blur(0.5rem) saturate(1.05);
+  border: 1px solid color-mix(in oklch, #e8eef7, transparent 86%);
+  box-shadow:
+    0 0.75rem 2.25rem rgba(0, 0, 0, 0.35),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05);
+}
+
+#features .feat-card:hover {
+  transform: translateY(-0.1rem);
+  border-color: color-mix(in oklch, #e8eef7, transparent 75%);
+  box-shadow:
+    0 1.1rem 3.2rem rgba(0, 0, 0, 0.45),
+    inset 0 0.06rem 0 rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 768px) {
+    #features .feat-card {
+    /* Size */
+    width: 20rem;
+    height: 22rem;
+  }
+
+  #features .feat-card:nth-child(1) {
+    /* Position */
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - Visor Box Final - Typo === 
+   Features – Icon mit Hover
    =============================================================== */
-.visor-box .final p {
-  /* Typografie */
-  font-size: clamp(11px, 1.6vw, 14px);
-}
+#features .feat-icon {
+  /* Size */
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.6rem;
+  margin-top: 2rem;
 
-.visor-box .tape-block article {
-  /* Abstand */
-  margin: 0 0 24px 0;
-}
+  /* Position */
+  margin-inline: auto;
 
-/* ===============================================================
-   === Vision - Sektion 03 - Top Led  === 
-   =============================================================== */
-.top-led {
-  /* Positionierung */
-  position: absolute;
-  left: 50%;
-  top: 8%;                  
+  /* Behavior */
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 
-  /* Größe */
-  width: 240px;         
-  height: 10px;            
-
-  /* Ecken */
-  border-radius: 999px;
-
-  /* Verhalten */
-  isolation: isolate; 
-  transform: translateX(-50%);      
-
-  /* Farbe / Stil */
+  /* Visual */
+  border: 1px solid rgba(255, 255, 255, 0.18);
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.92),
-    rgba(255,255,255,0.88)
- );    
-
-  /* Effekte */
-  box-shadow:
-    0 0 10px 4px  rgba(255,200,120,.45),
-    0 0 26px 12px rgba(255,160, 80,.30),
-    0 6px 40px 20px rgba(255,150, 60,.18); 
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Top Led - Glow inside - Before   === 
-   =============================================================== */
-.top-led::before {
-  /* Inhalt */
-  content: "";
-  
-  /* Positionierung */
-  position: absolute;
-  inset: 2px;    
-
-  /* Ecken */
-  border-radius: inherit;
-
-  /* Farbe / Stil */
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,0.00) 0%,
-      rgba(255,255,255,0.85) 20%,
-      rgba(255,255,255,0.95) 50%,
-      rgba(255,255,255,0.85) 80%,
-      rgba(255,255,255,0.00) 100%),
-    linear-gradient(180deg,
-      rgba(255,255,255,0.98),
-      rgba(255,255,255,0.92));
-
-  /* Effekte */
-  filter: blur(0.2px);  
-}
-
-/* ===============================================================
-   === Vision - Sektion 03 - Top Led - Glow Outside - After   === 
-   =============================================================== */
-.top-led::after {
-  /* Inhalt */
-  content: "";
-
-  /* Positionierung */
-  position: absolute;
-  inset: -10px -28px;  
-
-  /* Ecken */
-  border-radius: inherit;
-  
-  /* Layer */
-  z-index: -1;
-
-  /* Farbe / Stil */
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255,190,110,.55) 0%,
-    rgba(255,155, 70,.35) 40%,
-    rgba(255,140, 60,.20) 60%,
-    rgba(255,140, 60,.00) 70%
+    rgba(255, 255, 255, 0.10),
+    rgba(255, 255, 255, 0.06)
   );
+  box-shadow:
+    0 0.3rem 1rem rgba(0, 0, 0, 0.28),
+    inset 0 0.06rem 0 rgba(255, 255, 255, 0.06);
+}
 
-  /* Effekte */
-  filter: blur(6px) saturate(1.06);
+#features .feat-icon i {
+  /* Typography */
+  font-size: 1.5rem;
+
+  /* Visual */
+  opacity: 0.95;
+}
+
+#features .feat-icon:hover {
+  /* Behavior */
+  transform: translateY(-0.375rem) scale(1.06);
+
+  /* Visual */
+  box-shadow:
+    0 0.6rem 1.5rem rgba(0, 0, 0, 0.35),
+    inset 0 0.06rem 0 rgba(255, 255, 255, 0.08);
 }
 
 /* ===============================================================
-   === Vision - Sektion 03 - SVG Viewport  === 
+   Features – Titel / Copy
    =============================================================== */
-#vision svg {
-  /* Positionierung */
-  position: absolute;
-  inset: 0;
+#features .feat-h {
+  /* Typography */
+  margin-top: 0.2rem;
+  margin-bottom: 0;
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  letter-spacing: 0.02em;
+}
 
-  /* Größe */
-  width: 100%;
-  height: 100%;
+#features .feat-p {
+  /* Typography */
+  font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+  text-align: center;
+
+  /* Visual */
+  opacity: 0.85;
+}
+
+
+/* ===============================================================
+   Features – Titel / Copy (Mobil override ≤768px)
+   =============================================================== */
+@media (max-width: 768px) {
+  #features .feat-h {
+    font-size: 1.5rem;
+  }
+
+  #features .feat-p {
+    font-size: 1.3rem;
+  }
 }
 
 /* ===============================================================
-   /*? Footer - Main
+   Footer — Base
    =============================================================== */
-.footer-main {
+#footer {
+  /* Size */
+  height: 12rem;
+  border-radius: 1.25rem 1.25rem 0 0;
+
   /* Position */
+  grid-column: 1 / -1;
+  grid-row: auto;
   position: relative;
 
-  /* Abstand */
-  margin: 10px 10px 0 10px;
-  padding: clamp(20px, 3vw, 36px) clamp(20px, 4vw, 48px);
-
-  /* Layout */
-  border-radius: 24px 24px 0 0;
-  
-  /* Verhalten */
+  /* Behavior */
   isolation: isolate;
   overflow: hidden;
 
-  /* Farbe / Stil */
-  color: #fff;
-  background: radial-gradient(120% 140% at 50% 0%, #10305f 0%, #081528 55%, #000 100%);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-
-  /* Effekte */
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+  /* Visual */
+  background: none;
 }
 
-
 /* ===============================================================
-   /*? Footer - Stage
+   Footer — Main
    =============================================================== */
-.footer-stage {
-  /* Position */
-  position: absolute;
+.footer-main {
+  /* Typography */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
 
-  /* Verhalten */
-  pointer-events: none;
-  inset: 0;
-
-  /* Layer */
-  z-index: 1;
+  /* Visual */
+  color: #E8EEF7;
 }
 
-
 /* ===============================================================
-   /*? Footer - Highlight (Glow)
-   =============================================================== */
-.footer-highlight {
-  /* Position */
-  position: absolute;
-
-  /* Verhalten */
-  pointer-events: none;
-  inset: 0;
-
-  /* Layer */
-  z-index: 1;
-
-  /* Farbe / Stil */
-  background: radial-gradient(circle at 50% 55%, #cccdd1 8%, rgba(255,255,255,0) 55%);
-
-  /* Effekte */
-  filter: blur(50px);
-  mix-blend-mode: hard-light;
-  opacity: 0.5;
-}
-
-
-/* ===============================================================
-   /*? Footer - Container
+   Footer — Container
    =============================================================== */
 .footer-container {
-  /* Position */
-  position: relative;
-
-  /* Layer */
-  z-index: 2;
-}
-
-
-/* ===============================================================
-   /*? Footer - Layout
-   =============================================================== */
-.footer-layout {
-  /* Position */
-  position: relative;
-
-  /* Layout */
-  display: grid;
-  grid-template-columns: 1fr; /* Mobile: einspaltig */
-  row-gap: clamp(16px, 3vw, 24px);
-  align-items: start;
-
-  /* Abstand */
-  padding-top: clamp(8px, 1.5vw, 14px);
-  padding-bottom: clamp(16px, 3vw, 24px);
+  /* Size */
+  width: min(1200px, 94vw);
+  margin: 0 auto;
 }
 
 /* ===============================================================
-   /*? Footer - Layout Divider (::before)
-   =============================================================== */
-.footer-layout::before {
-  /* Inhalt */
-  content: "";
-
-  /* Position */
-  position: absolute;
-  top: clamp(12px, 1vh, 48px);
-  bottom: clamp(56px, 10vh, 120px);
-  left: 54%;
-
-  /* Größe */
-  width: 1px;
-  height: 150px;
-
-  /* Verhalten */
-  pointer-events: none;
-
-  /* Layout */
-  transform: translateX(-50%);
-  display: none; /* Mobile: Divider aus */
-
-  /* Farbe / Stil */
-  background: linear-gradient(to bottom,
-              rgba(255,255,255,.08),
-              rgba(255,255,255,.22) 20%,
-              rgba(255,255,255,.08));
-}
-
-/* ====== Breakpoint: ab Tablet wieder 2 Spalten + Divider ====== */
-@media (min-width: 768px){
-  .footer-layout{
-    grid-template-columns: minmax(280px, 1fr) minmax(380px, 1.4fr);
-    column-gap: clamp(24px, 6vw, 72px);
-  }
-  .footer-layout::before{
-    display: block;
-  }
-}
-
-
-/* ===============================================================
-   /*? Footer - Left Container
-   =============================================================== */
-.footer-left { 
-  /* Position */
-  position: relative;
-
-  /* Layout */
-  display: inline-block;
-}
-
-
-/* ===============================================================
-   /*? Footer - Avatar
-   =============================================================== */
-.footer-avatar {
-  /* Position */
-  position: absolute;
-  left: clamp(25px, calc(153.33px - 10.4167vw), 120px);
-  top: 0px;
-
-  /* Größe */
-  width: clamp(110px, 18vw, 160px);
-  height: clamp(110px, 18vw, 160px);
-
-  /* Layout */
-  border-radius: 50%;
-  object-fit: cover;
-
-  /* Verhalten */
-  cursor: pointer;
-
-  /* Layer */
-  z-index: 1;
-
-  /* Farbe / Stil */
-  border: 3px solid rgba(255,92,26,0.6);
-
-  /* Effekte */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Mobile-Switch */
-body.is-mobile .footer-avatar {
-  top: 40px;
-}
-
-/* ===============================================================
-   /*? Footer - Linke Spalte / Logo
-   =============================================================== */
-.footer-left .logo {
-  /* Abstand */
-  margin: 0 0 clamp(10px, 2vw, 16px) 0;
-
-  /* Layout */
-  display: inline-block;
-  line-height: 1;
-
-  /* Typografie */
-  font-weight: 800;
-  font-size: clamp(22px, 2.2vw, 28px);
-  letter-spacing: 0em;
-
-  /* Farbe / Stil */
-  color: #ccc;
-}
-
-/* Mobile-Switch ohne Media Query */
-body.is-mobile .footer-left .logo {
-  margin: 0 0 clamp(120px, 2vw, 16px) 0;
-}
-
-/* Markiertes A im Logo */
-.footer-left .logo span {
-  /* Abstand */
-  margin-inline: 0.08em;
-  padding: 0 0.10em;
-
-  /* Layout */
-  display: inline-block;
-  border-radius: 4px;
-
-  /* Verhalten */
-  text-rendering: optimizeLegibility;
-
-  /* Typografie */
-  font-kerning: normal;
-
-  /* Farbe / Stil */
-  background: #ff5c1a;
-  color: #000;
-}
-
-
-/* ===============================================================
-   /*? Footer - Identity Block
-   =============================================================== */
-.identity-block {
-  /* Abstand */
-  margin-top: clamp(10px, 2vw, 18px);
-}
-
-/* Zeile 1: Name */
-.identity-title {
-  /* Typografie */
-  font-weight: 800;
-  font-size: clamp(16px, 2.2vw, 20px);
-  letter-spacing: .08em;
-
-  /* Abstand */
-  margin: 0 0 6px 0;
-
-  /* Farbe / Stil */
-  color: #ff5c1a;
-}
-
-/* Zeile 2: Slogan */
-.identity-line {
-  /* Typografie */
-  font-size: clamp(14px, 2.4vw, 18px);
-  line-height: 1.4;
-
-  /* Abstand */
-  margin: 0 0 6px 0;
-
-  /* Layout */
-  white-space: nowrap;
-
-  /* Farbe / Stil */
-  color: #ccc;
-}
-
-/* Zeile 3: Online-Status */
-.identity-status {
-  /* Typografie */
-  font-size: 12px;
-
-  /* Layout */
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  /* Farbe / Stil */
-  color: #eaf2ff;
-
-  /* Effekte */
-  opacity: 0.9;
-}
-
-.identity-status .dot {
-  /* Größe */
-  width: 8px;
-  height: 8px;
-
-  /* Layout */
-  border-radius: 50%;
-
-  /* Farbe / Stil */
-  background: #3cff9d;
-
-  /* Effekte */
-  box-shadow: 0 0 12px #3cff9d;
-  animation: id-breathe 2.8s ease-in-out infinite;
-}
-
-/* Animation */
-@keyframes id-breathe {
-  0%,100% { 
-    opacity: .9; 
-    box-shadow: 0 0 10px #3cff9d; 
-  }
-  50% { 
-    opacity: .6; 
-    box-shadow: 0 0 4px #3cff9d; 
-  }
-}
-
-
-/* ===============================================================
-   /*? Footer - Right
-   =============================================================== */
-.footer-right {
-  /* Position */
-  position: relative;
-
-  /* Layout */
-  display: inline-block;
-}
-
-
-/* ===============================================================
-   /*? Footer - Columns
+   Footer — Columns
    =============================================================== */
 .footer-cols {
-  /* Abstand */
-  gap: 12px 22px;
+  /* Size */
+  gap: clamp(24px, 5vw, 64px);
 
-  /* Layout */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));  
+  /* Behavior */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  /* Typography */
+  text-align: center;
 }
 
-.footer-right ul {
-  /* Abstand */
-  margin: 0;
-  padding: 0;
+/* ===============================================================
+   Footer — Group
+   =============================================================== */
+.footer-group {
+  /* Size */
+  min-width: 10rem;
 
-  /* Layout */
+  /* Behavior */
+  transition: transform 0.25s ease, filter 0.25s ease;
+  will-change: transform;
+
+  /* Visual */
+}
+
+.footer-group:hover {
+  /* Behavior */
+  transform: translateY(-0.25rem);
+
+  /* Visual */
+  filter: drop-shadow(0 0.3rem 1.1rem #00000040);
+}
+/* ===============================================================
+   Footer — Headings
+   =============================================================== */
+.footer-group h4 {
+  /* Typography */
+  margin: 0 0 0.4rem 0;
+  font-size: clamp(1.5rem, 1.6vw, 1.1rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  /* Visual */
+  color: #D9E2FF;
+}
+
+/* ===============================================================
+   Footer — Lists
+   =============================================================== */
+.footer-group ul {
+  /* Behavior */
   list-style: none;
 }
 
-.footer-right li {
-  /* Typografie */
-  font-size: clamp(12px, 2vw, 14px);
-  line-height: 1.6;
-
-  /* Farbe / Stil */
-  color: #bbb;  /* Fallback */
-  color: oklch(75% 0 0);
+.footer-group li {
+  /* Size */
+  margin: 0.15rem 0;
 }
-
 
 /* ===============================================================
-   /*? Footer - Site Links
+   Footer — Links
    =============================================================== */
-.footer-site ul {
-  /* Abstand */
-  margin: 0;
-  padding: 0;
-
-  /* Layout */
-  list-style: none;
-}
-
-.footer-site li {
-  /* Abstand */
-  margin: 6px 0;
-}
-
-.footer-site a {
-  /* Größe */
-  font-size: clamp(13px, 2vw, 15px);
-
-  /* Abstand */
-  gap: 8px;
-  padding-bottom: 2px;
-
-  /* Layout */
-  display: inline-flex;
-  align-items: center;
-
-  /* Verhalten */
-  transition: transform .25s ease, color .25s ease, border-color .25s ease;
-
-  /* Farbe / Stil */
-  color: #bbb;                /* Fallback */
-  color: oklch(75% 0 0);
-  text-decoration: none;
-
-  /* Effekte */
-  border-bottom: 1px solid rgba(255,255,255,.18);
-}
-
-
-/* ===============================================================
-   /*? Footer - Projects
-   =============================================================== */
-.footer-projects a {
-  /* Layout */
-  display: inline-block; 
-
-  /* Verhalten */
-  transition: color .2s, transform .25s ease;
-
-  /* Farbe / Stil */
-  color: #bbb; /* Fallback */
-  color: oklch(75% 0 0);
-  text-decoration: none;
-}
-
-.footer-projects ul {
-  /* Abstand */
-  margin: 0; 
-  padding: 0;
-
-  /* Layout */
-  list-style: none; 
-}
-
-.footer-projects li {
-  /* Typografie */
-  font-size: clamp(12px, 2vw, 14px);
-  line-height: 1.6;
-
-  /* Farbe / Stil */
-  color: #bbb;               /* Fallback */
-  color: oklch(75% 0 0);
-}
-
-
-/* ===============================================================
-   /*? Footer - Social
-   =============================================================== */
-.footer-social a {
-  /* Layout */
+.footer-group a {
+  /* Behavior */
   display: inline-block;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              border-color 0.20s ease,
+              background-color 0.20s ease,
+              box-shadow 0.20s ease;
+  will-change: transform;
 
-  /* Verhalten */
-  transition: transform .25s ease, color .25s ease;
-
-  /* Typografie */
-  font-size: clamp(12px, 2vw, 14px);
-  line-height: 1.6;
-
-  /* Farbe / Stil */
-  color: #bbb;               /* Fallback */
-  color: oklch(75% 0 0);
+  /* Typography */
   text-decoration: none;
+
+  /* Visual */
+  color: #C5CAE0;
+  border-bottom: 1px solid #FFFFFF2E;
+  padding-bottom: 0.1rem;
 }
 
+.footer-group a:hover {
+  /* Behavior */
+  transform: translateY(-0.1rem) scale(1.06);
+
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom-color: #7FD1FF;
+  text-shadow: 0 0 12px #7FD1FF40;
+}
 
 /* ===============================================================
-   /*? Footer - Contact Unlock Button
+   Footer — Unlock Button
    =============================================================== */
 .unlock-btn {
-  /* Abstand */
-  padding: 6px 10px;
+  /* Size */
+  border-radius: 0.5rem;
 
-  /* Größe */
-  border-radius: 6px;
-  font-size: 14px;
-
-  /* Verhalten */
+  /* Behavior */
   cursor: pointer;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              background-color 0.20s ease,
+              box-shadow 0.20s ease,
+              border-color 0.20s ease;
 
-  /* Farbe / Stil */
-  background: none;
-  border: 1px solid #ff5c1a;
-  color: #ff5c1a;
-
-  /* Effekte */
-  transition: all .2s ease;
+  /* Visual */
+  border: 1px solid #7FD1FF;
+  background: transparent;
+  color: #7FD1FF;
+  padding: 0.3rem 0.6rem;
 }
 
+.unlock-btn:hover {
+  /* Behavior */
+  transform: translateY(-0.1rem) scale(1.06);
+
+  /* Visual */
+  background: #7FD1FF;
+  color: #0A0F1F;
+  box-shadow: 0 0.5rem 1.3rem #7FD1FF47;
+}
 
 /* ===============================================================
-   /*? Footer - Contact Mail
+   Footer — Contact Mail
    =============================================================== */
-   
-.contact-mail {
-  /* Größe */
-  font-weight: 600;
 
-  /* Farbe / Stil */
-  color: #ff5c1a;
+/* Contact — Button Group */
+.contact-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* zentriert unter "Contact" */
+  gap: 0.5rem;
+}
+
+.contact-buttons .unlock-btn {
+  min-width: 6rem;   /* gleiche Breite */
+  width: auto;
+  margin: 0;         /* keine Auto-Margins, Zentrierung kommt vom Container */
+}
+
+.contact-mail {
+  /* Behavior */
+  display: inline-block;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              background-color 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Typography */
+  font-weight: 600;
   text-decoration: none;
 
-  /* Effekte */
-  transition: all .2s ease;
+  /* Visual */
+  color: #C5CAE0;
+  border-bottom: 1px solid #FFFFFF2E;
+  padding-bottom: 0.1rem;
+}
+
+.contact-mail:hover {
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom-color: #7FD1FF;
+  text-shadow: 0 0 12px #7FD1FF40;
 }
 
 
 /* ===============================================================
-   /*? Footer - Bottom
+   Footer — Bottom
    =============================================================== */
 .footer-bottom {
-  /* Abstand */
-  margin-top: clamp(14px, 3vw, 24px);
-  gap: 10px 16px;
+  /* Size */
+  margin-top: clamp(16px, 3vw, 28px);
+  gap: 0.2rem 1rem;
 
-  /* Layout */
+  /* Behavior */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between; /* Platz zwischen Mitte & Rechts */
+  justify-content: space-between;
 }
 
 .footer-bottom-line {
-  /* Größe */
-  height: 1px;
-
-  /* Abstand */
-  margin-bottom: 10px;
-
-  /* Layout */
+  /* Size */
   flex-basis: 100%;
+  margin-bottom: 0.5rem;
 
-  /* Farbe / Stil */
-  background: #333;
-
-  /* Effekte */
-  opacity: 0.9;
+  /* Visual */
+  border-bottom: 0.06rem solid #FFFFFF24;
 }
 
 .footer-bottom-legal {
-  /* Typografie */
-  font-size: clamp(10px, 2vw, 12px); 
-  letter-spacing: 0.2em;
+  /* Behavior */
+  display: flex;
+  align-items: center;
+  flex: 1;
   text-align: center;
 
-  /* Layout */
-  flex: 1;
+  /* Typography */
+  font-size: clamp(0.75rem, 1.6vw, 0.8rem);
+  letter-spacing: 0.16em;
 
-  /* Farbe / Stil */
-  color: #888;
+  /* Visual */
+  color: #B8BED3;
+}
+
+.legal-impressum {
+  /* Position */
+  margin-right: auto;
+
+  /* Behavior */
+  text-decoration: none;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Visual */
+  color: #CCD4EA;
+  border-bottom: 0.06rem solid #FFFFFF2E;
+}
+
+.legal-impressum:hover {
+  /* Behavior */
+  transform: translateY(-0.125rem) scale(1.06);
+
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom-color: #7FD1FF;
+}
+
+.legal-datenschutz {
+  /* Behavior */
+  text-decoration: none;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Visual */
+  color: #CCD4EA;
+  border-bottom: 0.06rem solid #FFFFFF2E;
+}
+
+.legal-datenschutz:hover {
+  /* Behavior */
+  transform: translateY(-0.1rem) scale(1.06);
+
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom-color: #7FD1FF;
 }
 
 /* ===============================================================
-   /*? Footer - Author
+   Legal Pages — Basis
    =============================================================== */
-.app__author {
-  /* Abstand */
-  padding-bottom: 1px;
+body.legal-page {
+  /* Visual */
+  background: linear-gradient(180deg, #0d1015, #181d24);
+  color: #E8EEF7;
 
-  /* Layout */
-  margin-left: auto;
+  /* Typography */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
 
-  /* Farbe / Stil */
-  color: #eaf2ff;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,.18);
+  /* Behavior */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Size */
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+  position: relative;
 }
+
+/* Container */
+.legal-wrap {
+  /* Size */
+  width: min(960px, 94vw);
+
+  /* Behavior */
+  display: grid;
+  gap: 2rem;
+  
+}
+
+/* ===============================================================
+   Legal – Grid-Fallback (steht hinter dem Inhalt)
+   =============================================================== */
+
+.legal-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* Hintergrund wie Startseite + zarte Gridlines */
+  background:
+    radial-gradient(140% 160% at 50% -10%, #0d1015, #181d24 60%),
+    linear-gradient(0deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    32px 32px,
+    32px 32px;
+  background-position:
+    center,
+    0 0,
+    0 0;
+  opacity: 0.18;
+}
+
+/* ===============================================================
+   Legal Cards — Glasoptik
+   =============================================================== */
+.legal-card {
+  /* Size */
+  border-radius: 1rem;
+  padding: 2rem;
+
+  /* Visual */
+  background: color-mix(in oklch, #0f1115, white 6% / 12%);
+  backdrop-filter: blur(0.6rem) saturate(1.05);
+  border: 1px solid color-mix(in oklch, #e8eef7, transparent 86%);
+  box-shadow:
+    0 0.75rem 2rem rgba(0, 0, 0, 0.35),
+    inset 0 0.06rem 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Kopf-Karte */
+.legal-card--head {
+  text-align: center;
+}
+
+
+/* ===============================================================
+   Legal — Headings & Copy
+   =============================================================== */
+.legal-title {
+  /* Typography */
+  margin: 0 0 0.4rem 0;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.legal-meta {
+  /* Typography */
+  margin: 0;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+
+  /* Visual */
+  opacity: 0.8;
+}
+
+.legal-content h2 {
+  /* Typography */
+  margin: 2rem 0 0.6rem 0;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+
+  /* Visual */
+  color: #D9E2FF;
+}
+
+.legal-content h3 {
+  /* Typography */
+  margin: 1.5rem 0 0.4rem 0;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+
+  /* Visual */
+  color: #C5CAE0;
+}
+
+.legal-content p,
+.legal-content ul {
+  /* Typography */
+  margin: 0.6rem 0;
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+
+  /* Visual */
+  opacity: 0.9;
+}
+
+.legal-content ul {
+  /* Size */
+  padding-left: 1.2rem;
+}
+
+/* Links im Text – wie auf der Hauptseite */
+.legal-content a {
+  /* Behavior */
+  text-decoration: none;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Visual */
+  color: #C5CAE0;
+  border-bottom: 1px solid #FFFFFF2E;
+  padding-bottom: 0.1rem;
+}
+
+.legal-content a:hover {
+  /* Behavior */
+  transform: translateY(-0.1rem) scale(1.06);
+
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom-color: #7FD1FF;
+  text-shadow: 0 0 12px #7FD1FF40;
+}
+
+/* ===============================================================
+   Legal — Contact / Unlock
+   =============================================================== */
+.legal-contact {
+  /* Behavior */
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+/* Button-Gruppe untereinander, mittig */
+.contact-buttons {
+  /* Behavior */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unlock-btn {
+  /* Size */
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+
+  /* Behavior */
+  cursor: pointer;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              background-color 0.20s ease,
+              box-shadow 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Visual */
+  border: 1px solid #7FD1FF;
+  background: transparent;
+  color: #7FD1FF;
+}
+
+.unlock-btn:hover {
+  /* Behavior */
+  transform: translateY(-0.1rem) scale(1.06);
+
+  /* Visual */
+  background: #7FD1FF;
+  color: #0A0F1F;
+  box-shadow: 0 0.5rem 1.3rem #7FD1FF47;
+}
+
+/* Mail-Link im entsperrten Bereich */
+.contact-mail {
+  /* Behavior */
+  display: inline-block;
+  transition: transform 0.20s ease,
+              color 0.20s ease,
+              background-color 0.20s ease,
+              border-color 0.20s ease;
+
+  /* Typography */
+  font-weight: 600;
+  text-decoration: none;
+
+  /* Visual */
+  color: #ffffff;
+  border-bottom: 1px solid #FFFFFF2E;
+  padding-bottom: 0.1rem;
+}
+
+.contact-mail:hover {
+  /* Visual */
+  color: #FFFFFF;
+  background: #7FD1FF;
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.3rem;
+}
+
+/* Adresse sauber darstellen (ohne Kursiv von <address>) */
+.legal-address {
+  /* Behavior */
+  font-style: normal;
+  font-size: 1rem;
+
+  /* Typography */
+  margin: 0.4rem 0 0 0;
+  line-height: 1.5;
+}
+
+/* ===============================================================
+   Legal — Navigation (Back-Link)
+   =============================================================== */
+.legal-nav {
+  /* Size */
+  margin-top: 2rem;
+
+  /* Behavior */
+  text-align: center;
+}
+
+.legal-back {
+  /* Behavior */
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+
+  /* Visual */
+  color: #7FD1FF;
+  border-bottom: 1px solid #7FD1FF60;
+
+  /* Typography */
+  font-size: 1rem;
+}
+
+.legal-back:hover {
+  /* Visual */
+  color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+}
+
+/* ===============================================================
+   Responsive — Mobile (<= 768px)
+   =============================================================== */
+
+@media (max-width: 768px) {
+  #footer {
+    /* Size */
+    height: auto;
+    min-height: 14rem;
+    border-radius: 1.25rem 1.25rem 0 0;
+
+    /* Behavior */
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    /* Size */
+    width: 92vw;
+    margin: 0 auto;
+  }
+}
+
+ @media (max-width: 768px) {
+  .footer-cols {
+    /* Behavior */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    /* Size */
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-group {
+    /* Size */
+    min-width: 12rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-bottom {
+    /* Behavior */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* Size */
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-bottom-legal {
+    gap: 2rem;
+    margin-bottom: 5rem;
+    margin-left: 1rem;
+  }
+}
+
+  /* Footer — Legal (mobile: größere Links) */
+@media (max-width: 768px) {
+  .footer-bottom-legal a {
+    font-size: 2rem;
+    line-height: 1.20;
+    border-bottom-width: 0.10rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body.legal-page {
+    padding: 3rem 1rem;
+  }
+  .legal-card {
+    padding: 1.6rem;
+  }
+  .legal-title {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+}
+
+
+
