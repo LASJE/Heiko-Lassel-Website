@@ -1,5 +1,4 @@
 
-// Minimal-Bootstrap: hängt Header/Main/Footer in index.html ein.
 async function inject(selector, url, position='end'){
   const res = await fetch(url);
   if(!res.ok) throw new Error(`${url}: ${res.status}`);
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await inject('body', "01_src/header.html", 'start');
     await inject('body', "01_src/main.html",   'end');
     await inject('body', "01_src/footer.html", 'end');
-    // nach dem Einfügen von header/main/footer:
+    
     const { initUI } = await import('./ui.js');
     initUI();
     }catch(e){
