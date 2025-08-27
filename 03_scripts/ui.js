@@ -244,13 +244,12 @@ function initFooterUnlock() {
 
 
 /* ============================================================
-   features - Morph Text (Definition)
+   MorphText – komplette, stabile Lösung
    ============================================================ */
-window.InitUI = window.InitUI || {};
-
-window.InitUI.morphText = function (cfg) {
+window.InitUI ??= {};
+window.InitUI.morphText ??= function (cfg) {
   const el = document.querySelector(cfg.selector);
-  if (!el || !cfg.items || !cfg.items.length) return;
+  if (!el || !cfg.items?.length) return;
 
   const items = cfg.items.slice();
   const interval = cfg.interval || 3000;
@@ -313,35 +312,79 @@ window.InitUI.morphText = function (cfg) {
   setText(items[0]);
 };
 
-/* ============================================================
-   Showcase - karussell
-   ============================================================ */
-
-const isCoarse = matchMedia('(pointer: coarse)').matches;
-
-if (!isCoarse) {
-
-  Sortable.create(board, { animation:140, handle: ".handle", ghostClass:"ghost", dragClass:"sortable-chosen" });
-  board.querySelectorAll(".stack").forEach((stack) => {
-    Sortable.create(stack, { animation:120, group:{name:"units", pull:true, put:true}, ghostClass:"ghost", dragClass:"sortable-chosen" });
+/* 2) Utility: Wait for Element */
+function waitForEl(selector, timeout = 6000) {
+  return new Promise((resolve, reject) => {
+    const hit = document.querySelector(selector);
+    if (hit) return resolve(hit);
+    const obs = new MutationObserver(() => {
+      const el = document.querySelector(selector);
+      if (el) { obs.disconnect(); resolve(el); }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+    setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
   });
 }
 
-document.querySelectorAll('.unlock-btn[data-unlock-target]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.getAttribute('data-unlock-target');
-    const locked = document.getElementById(`${target}-locked`);
-    const unlocked = document.getElementById(`${target}-unlocked`);
-    if (locked && unlocked) {
-      locked.hidden = true;
-      unlocked.hidden = false;
-      btn.setAttribute('aria-expanded', 'true');
+/* 3) Start One */
+(function initMorphHeadingOnce(){
+  const flag = 'morphInit';
+  if (document.documentElement.dataset[flag]) return;
+  document.documentElement.dataset[flag] = '1';
+
+  const sel = document.querySelector('#features .feat-h')
+            ? '#features .feat-h'
+            : '#features .feat-title';
+
+  waitForEl(sel, 6000).then(() => {
+    if (typeof window.InitUI?.morphText !== 'function') {
+      console.warn('InitUI.morphText fehlt zur Laufzeit.');
+      return;
     }
+    const el = document.querySelector(sel);
+    const initial = (el.textContent || '').trim() || 'Core Planning';
+
+    window.InitUI.morphText({
+      selector: sel,
+      items: [initial, 'Traditional Craft', 'Quality Materials'],
+      interval: 2600
+    });
+  }).catch(e => {
+    console.warn('Morph-Ziel nicht gefunden:', e?.message || e);
   });
-});
+})();
 
+// ============================================================
+// Showcase - karussell (defensiv gekapselt)
+// ============================================================
+(() => {
+  try {
+    const isCoarse = matchMedia('(pointer: coarse)').matches;
+    const board = document.getElementById('dnd-board');
+    // Wenn kein Board, oder Touch-Gerät, oder Sortable fehlt -> leise aussteigen
+    if (!board || isCoarse || typeof Sortable === 'undefined') return;
 
+    // Haupt-Board
+    Sortable.create(board, {
+      animation: 140,
+      handle: ".handle",
+      ghostClass: "ghost",
+      dragClass: "sortable-chosen"
+    });
 
+    // Stacks
+    board.querySelectorAll(".stack").forEach((stack) => {
+      Sortable.create(stack, {
+        animation: 120,
+        group: { name: "units", pull: true, put: true },
+        ghostClass: "ghost",
+        dragClass: "sortable-chosen"
+      });
+    });
+  } catch (e) {
+    console.warn('Karussell-Init übersprungen:', e);
+  }
+})();
 
 
 
