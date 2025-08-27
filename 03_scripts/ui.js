@@ -6,9 +6,8 @@ export async function initUI() {
   try { initGlobalGridBackground(); } catch(e){}
   try { initUICard(); } catch(e){}
   try { initStatusbarClock(); } catch(e){}
-  try { initFooterUnlock(); } catch(e){}   // stabilisiert
+  try { initFooterUnlock(); } catch(e){}
 
-  // danach: warten bis DOM da ist, dann Feature-Inits
   await Promise.allSettled([
     initMorphHeading(),
     initDnDBoard()
@@ -31,7 +30,7 @@ async function waitForEl(selector, timeout = 6000) {
   });
 }
 
-// Einmal-Init-Guard
+// Init-Guard
 function guardOnce(key) {
   const root = document.documentElement;
   if (root.dataset[key]) return false;
@@ -68,7 +67,7 @@ export function initGlobalGridBackground(selector = 'body'){
     svg.append(gGrid, gPlus);
     container.appendChild(svg);
 
-    const step = 48; // Abstand zwischen Gridlinien
+    const step = 48;
 
     // Linien
     const seg = [];
@@ -82,9 +81,9 @@ export function initGlobalGridBackground(selector = 'body'){
       fill: 'none'
     }));
 
-    // Plusse (nicht jedes Feld, nur jedes 4.)
+    
     const plusStep = step * 4;
-    const plusSize = 3; // Länge der Plus-Striche
+    const plusSize = 3;
 
     for (let x = plusStep; x < W; x += plusStep){
       for (let y = plusStep; y < H; y += plusStep){
@@ -137,16 +136,16 @@ export function initUICard() {
 async function initDnDBoard() {
   if (!guardOnce('dndInit')) return;
 
-  // Board abwarten (Bootstrap hängt DOM ein)
+
   let board;
   try {
     board = await waitForEl('#dnd-board', 8000);
   } catch {
-    // Kein Board? dann raus.
+
     return;
   }
 
-  // Sortable erst laden, wenn wirklich gebraucht
+
   let Sortable;
   try {
     ({ default: Sortable } = await import('https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/modular/sortable.esm.js'));
@@ -155,7 +154,7 @@ async function initDnDBoard() {
     return;
   }
 
-  // Sektionen (Cluster) via Handle sortieren
+
   try {
     Sortable.create(board, {
       animation: 140,
@@ -167,7 +166,7 @@ async function initDnDBoard() {
     console.error('Sortable Board-Init fehlgeschlagen:', e);
   }
 
-  // Items zwischen Stacks verschieben
+
   board.querySelectorAll('.stack').forEach(stack => {
     try {
       Sortable.create(stack, {
@@ -199,13 +198,13 @@ function initStatusbarClock(root = document) {
   const tick = () => {
     hourEl.textContent = fmt();
     const now = new Date();
-    // Genau bis zur nächsten vollen Minute warten
+
     const msToNextMinute =
       (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
     setTimeout(tick, msToNextMinute);
   };
 
-  tick(); // Initiales Setzen
+  tick();
 }
 
 /* ============================================================
@@ -234,7 +233,7 @@ function initFooterUnlock() {
     unlocked.hidden = !next;
     lockedWrap.hidden = next;
 
-    // Optional: Button-Label aus data-Attributen nehmen, falls vorhanden
+    // Optional: Button-Label
     const showLbl = btn.dataset.labelShow || 'E-Mail anzeigen';
     const hideLbl = btn.dataset.labelHide || 'E-Mail verbergen';
     btn.textContent = next ? hideLbl : showLbl;
@@ -320,7 +319,7 @@ InitUI.morphText = function (cfg) {
   try {
     const isCoarse = matchMedia('(pointer: coarse)').matches;
     const board = document.getElementById('dnd-board');
-    // Wenn kein Board, oder Touch-Gerät, oder Sortable fehlt -> leise aussteigen
+
     if (!board || isCoarse || typeof Sortable === 'undefined') return;
 
     // Haupt-Board
