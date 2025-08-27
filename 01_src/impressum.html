@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Impressum – Heiko Lassel</title>
+
+  <!-- deine bestehenden Styles -->
+  <link rel="stylesheet" href="../02_styles/base.css">
+  <link rel="stylesheet" href="../02_styles/layout.css">
+  <link rel="stylesheet" href="../02_styles/components.css">
+</head>
+<body class="legal-page">
+  <main class="legal-wrap" id="content">
+    <!-- Box 1: Kopf -->
+    <section class="legal-card legal-card--head">
+      <h1 class="legal-title">Impressum</h1>
+      <p class="legal-meta"><em>Angaben nach § 5 TMG - Stand: August 2025</em></p>
+    </section>
+
+    <!-- Box 2: Inhalt -->
+    <section class="legal-card legal-card--content">
+      <article class="legal-content">
+
+        <h2>Verantwortlich</h2>
+
+        <!-- exakt dein Button-Muster, Button bleibt immer sichtbar -->
+        <div class="legal-contact">
+          <!-- Block: Person -->
+          <div id="imp-person-locked" class="contact-buttons">
+            <button type="button"
+                    class="unlock-btn"
+                    data-unlock-target="imp-person"
+                    data-label-show="Verantwortliche Angaben anzeigen"
+                    data-label-hide="Verantwortliche Angaben verbergen"
+                    aria-expanded="false">
+              Verantwortliche Angaben anzeigen
+            </button>
+          </div>
+          <div id="imp-person-unlocked" hidden>
+            <address class="legal-address">
+              <strong>Heiko Lassel</strong><br>
+              Dallingerstr. 29<br>
+              90459 Nürnberg<br>
+              Deutschland
+            </address>
+          </div>
+
+          <!-- Block: E-Mail -->
+          <div id="imp-email-locked" class="contact-buttons">
+            <button type="button"
+                    class="unlock-btn"
+                    data-unlock-target="imp-email"
+                    data-label-show="E-Mail anzeigen"
+                    data-label-hide="E-Mail verbergen"
+                    aria-expanded="false">
+              E-Mail anzeigen
+            </button>
+          </div>
+          <ul id="imp-email-unlocked" hidden>
+            <li>
+              <a href="mailto:info.heikolassel@gmail.com" class="contact-mail">info.heikolassel@gmail.com</a>
+            </li>
+          </ul>
+        </div>
+
+        <h2>Haftung für Inhalte</h2>
+        <p>Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</p>
+
+        <h2>Haftung für Links</h2>
+        <p>Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Für diese fremden Inhalte übernehme ich keine Gewähr. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.</p>
+
+        <h2>Urheberrecht</h2>
+        <p>Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen meiner schriftlichen Zustimmung, sofern nicht anders gekennzeichnet.</p>
+
+        <nav class="legal-nav">
+          <a class="legal-back" href="../00_Public/index.html#footer">Zurück zur Startseite</a>
+        </nav>
+      </article>
+    </section>
+  </main>
+
+  <!-- Legal - Button - Lock&Unlock  -->
+
+  <script>
+    (function legalLocalUnlock(){
+      const root = document.querySelector('.legal-page');
+      if (!root) return;
+
+      function bind(btn){
+        const key = btn.dataset.unlockTarget;
+        const unlocked = document.getElementById(`${key}-unlocked`);
+        if (!unlocked) return;
+
+        const labelShow = btn.dataset.labelShow || 'Anzeigen';
+        const labelHide = btn.dataset.labelHide || 'Verbergen';
+
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          unlocked.hidden = expanded;
+          btn.setAttribute('aria-expanded', String(!expanded));
+          btn.textContent = expanded ? labelShow : labelHide;
+        });
+      }
+
+      root.querySelectorAll('.unlock-btn[data-unlock-target]').forEach(bind);
+    })();
+
+    
+  </script>
+</body>
+</html>
