@@ -2,13 +2,13 @@
    Init - Ui
    ============================================================ */
 export async function initUI() {
-  // deine bestehenden Inits
+
   initGlobalGridBackground();
   initUICard();
   initStatusbarClock();
   initFooterUnlock();
 
-  // ---------- Helper: warten bis Element existiert ----------
+  // ---------- Helper  ----------
   function waitForEl(selector, timeout = 4000) {
     return new Promise((resolve, reject) => {
       const elNow = document.querySelector(selector);
@@ -22,9 +22,8 @@ export async function initUI() {
     });
   }
 
-  // ---------- Features-Heading morphen (einmalig, richtiger Selector) ----------
+  // ---------- Features-Heading morphen ----------
   try {
-    // Doppel-Init verhindern
     if (!document.documentElement.dataset.morphInit) {
       const el = await waitForEl("#features .feat-h", 5000);
       if (el && window.InitUI && typeof window.InitUI.morphText === "function") {
@@ -44,6 +43,7 @@ export async function initUI() {
     console.warn("Morph-Heading nicht gefunden:", e?.message || e);
   }
 }
+
 /* ============================================================
    Global - Grid background 
    ============================================================ */
@@ -73,9 +73,8 @@ export function initGlobalGridBackground(selector = 'body'){
     svg.append(gGrid, gPlus);
     container.appendChild(svg);
 
-    const step = 48; // Abstand zwischen Gridlinien
+    const step = 48; 
 
-    // Linien
     const seg = [];
     for (let x = 0.5; x <= W - 0.5; x += step) seg.push(`M${x} 0 V${H}`);
     for (let y = 0.5; y <= H - 0.5; y += step) seg.push(`M0 ${y} H${W}`);
@@ -87,18 +86,18 @@ export function initGlobalGridBackground(selector = 'body'){
       fill: 'none'
     }));
 
-    // Plusse (nicht jedes Feld, nur jedes 4.)
+
     const plusStep = step * 4;
-    const plusSize = 3; // Länge der Plus-Striche
+    const plusSize = 3;
 
     for (let x = plusStep; x < W; x += plusStep){
       for (let y = plusStep; y < H; y += plusStep){
-        // vertikal
+
         gPlus.appendChild(el('line',{
           x1: x, y1: y - plusSize, x2: x, y2: y + plusSize,
           stroke: 'rgba(255,255,255,.3)', 'stroke-width': 1
         }));
-        // horizontal
+
         gPlus.appendChild(el('line',{
           x1: x - plusSize, y1: y, x2: x + plusSize, y2: y,
           stroke: 'rgba(255,255,255,.3)', 'stroke-width': 1
@@ -143,7 +142,7 @@ export function initUICard() {
 
   const board = document.getElementById("dnd-board");
 
-  // A–G: ganze Sektionen per Überschrift ziehen (reihenfolge in Grid)
+
   Sortable.create(board, {
     animation: 140,
     handle: ".handle",
@@ -151,7 +150,7 @@ export function initUICard() {
     dragClass: "sortable-chosen"
   });
 
-  // Items: zwischen allen Sektionen verschiebbar
+
   board.querySelectorAll(".stack").forEach((stack) => {
     Sortable.create(stack, {
       animation: 120,
@@ -166,7 +165,7 @@ export function initUICard() {
    ============================================================ */
 function initStatusbarClock(root = document) {
   const hourEl = root.getElementById('hour');
-  if (!hourEl) return; // kein Ziel-Element -> kein Update
+  if (!hourEl) return; 
 
   const fmt = () => {
     const d = new Date();
@@ -178,19 +177,17 @@ function initStatusbarClock(root = document) {
   const tick = () => {
     hourEl.textContent = fmt();
     const now = new Date();
-    // Genau bis zur nächsten vollen Minute warten
     const msToNextMinute =
       (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
     setTimeout(tick, msToNextMinute);
   };
 
-  tick(); // Initiales Setzen
+  tick(); 
 }
 
   /* ============================================================
    Footer - Unlock Mail
    ============================================================ */
-// Footer-Mail Toggle (robust, ohne HTML-Änderung, verhindert alte Handler)
 (() => {
   if (window.__footerUnlockBound) return;
   window.__footerUnlockBound = true;
@@ -199,7 +196,6 @@ function initStatusbarClock(root = document) {
     const btn = ev.target.closest('#footer .footer-contact .unlock-btn[data-unlock-target="contact"]');
     if (!btn) return;
 
-    // blockiert ältere/konkurrierende Click-Handler
     ev.preventDefault();
     ev.stopPropagation();
     ev.stopImmediatePropagation();
@@ -211,7 +207,7 @@ function initStatusbarClock(root = document) {
     const showLabel = btn.dataset.labelShow || 'E-Mail anzeigen';
     const hideLabel = btn.dataset.labelHide || 'E-Mail verbergen';
 
-    // Default einmal sauber setzen
+
     if (!btn.hasAttribute('aria-expanded')) {
       btn.setAttribute('aria-expanded', 'false');
       btn.textContent = showLabel;
@@ -220,7 +216,6 @@ function initStatusbarClock(root = document) {
 
     const isOpen = btn.getAttribute('aria-expanded') === 'true';
 
-    // TOGGLE
     if (isOpen) {
       list.hidden = true;
       btn.setAttribute('aria-expanded', 'false');
@@ -230,7 +225,7 @@ function initStatusbarClock(root = document) {
       btn.setAttribute('aria-expanded', 'true');
       btn.textContent = hideLabel;
     }
-  }, true); // capture=true, damit wir vor bubblenden Alt-Handlern drankommen
+  }, true);
 })();
 
 /* ============================================================
