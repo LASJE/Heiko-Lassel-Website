@@ -244,28 +244,32 @@ function initFooterUnlock() {
 
 
 /* ============================================================
-   MorphText – ohne Shadowing von waitForEl
+   features - Morph Text 
    ============================================================ */
+window.InitUI = window.InitUI || {};
 
-/* falls noch nicht vorhanden: Definition belassen */
-window.InitUI ??= {};
-window.InitUI.morphText ??= function (cfg) {
+InitUI.morphText = function (cfg) {
   const el = document.querySelector(cfg.selector);
-  if (!el || !cfg.items?.length) return;
+  if (!el || !cfg.items || !cfg.items.length) return;
 
   const items = cfg.items.slice();
   const interval = cfg.interval || 3000;
   const chars = "!<>-_\\/[]{}—=+*^?#________";
 
-  let frame = 0, queue = [], current = items[0], i = 0, requestId;
+  let frame = 0;
+  let queue = [];
+  let current = items[0];
+  let i = 0;
+  let requestId;
 
   function setText(newText) {
     const length = Math.max(current.length, newText.length);
     queue = [];
     for (let j = 0; j < length; j++) {
-      const from = current[j] || "", to = newText[j] || "";
+      const from = current[j] || "";
+      const to = newText[j] || "";
       const start = Math.floor(Math.random() * 40);
-      const end   = start + Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
       queue.push({ from, to, start, end, char: null });
     }
     cancelAnimationFrame(requestId);
@@ -275,67 +279,39 @@ window.InitUI.morphText ??= function (cfg) {
   }
 
   function update() {
-    let output = "", complete = 0;
+    let output = "";
+    let complete = 0;
     for (let j = 0; j < queue.length; j++) {
       let { from, to, start, end, char } = queue[j];
-      if (frame >= end) { complete++; output += to; }
-      else if (frame >= start) {
+      if (frame >= end) {
+        complete++;
+        output += to;
+      } else if (frame >= start) {
         if (!char || Math.random() < 0.28) {
           char = chars[Math.floor(Math.random() * chars.length)];
           queue[j].char = char;
         }
         output += `<span class="dud">${char}</span>`;
-      } else { output += from; }
+      } else {
+        output += from;
+      }
     }
     el.innerHTML = output;
-    if (complete === queue.length) setTimeout(next, interval);
-    else { frame++; requestId = requestAnimationFrame(update); }
+    if (complete === queue.length) {
+      setTimeout(next, interval);
+    } else {
+      frame++;
+      requestId = requestAnimationFrame(update);
+    }
   }
 
-  function next() { i = (i + 1) % items.length; setText(items[i]); }
+  function next() {
+    i = (i + 1) % items.length;
+    setText(items[i]);
+  }
+
   setText(items[0]);
 };
-
-/* einmalig starten, ohne globale waitForEl-Neudefinition */
-(function initMorphHeadingOnce(){
-  const FLAG = 'morphInit';
-  const root = document.documentElement;
-  if (root.dataset[FLAG]) return;
-  root.dataset[FLAG] = '1';
-
-  const sel = document.querySelector('#features .feat-h')
-            ? '#features .feat-h'
-            : '#features .feat-title';
-
-  // alias: nimm vorhandenes waitForEl, sonst lokales Fallback
-  const morphWaitForEl =
-    (typeof waitForEl === 'function')
-      ? waitForEl
-      : (selector, timeout = 6000) => new Promise((resolve, reject) => {
-          const hit = document.querySelector(selector);
-          if (hit) return resolve(hit);
-          const obs = new MutationObserver(() => {
-            const el = document.querySelector(selector);
-            if (el) { obs.disconnect(); resolve(el); }
-          });
-          obs.observe(document.documentElement, { childList: true, subtree: true });
-          setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
-        });
-
-  morphWaitForEl(sel, 6000).then(() => {
-    const api = window.InitUI && typeof window.InitUI.morphText === 'function' ? window.InitUI.morphText : null;
-    if (!api) { console.warn('InitUI.morphText fehlt zur Laufzeit.'); return; }
-
-    const el = document.querySelector(sel);
-    const initial = (el?.textContent || '').trim() || 'Core Planning';
-
-    api({
-      selector: sel,
-      items: [initial, 'Traditional Craft', 'Quality Materials'],
-      interval: 2600
-    });
-  }).catch(e => console.warn('Morph-Ziel nicht gefunden:', e?.message || e));
-})();
 
 // ============================================================
 // Showcase - karussell (defensiv gekapselt)
