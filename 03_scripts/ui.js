@@ -241,35 +241,45 @@ function initFooterUnlock() {
 }
 
 /* ============================================================
-   features - Morph Text 
+   features - Morph Text (robust, kein Flackern, single instance)
    ============================================================ */
 window.InitUI = window.InitUI || {};
 
-InitUI.morphText = function (cfg) {
+window.InitUI.morphText = function (cfg) {
   const el = document.querySelector(cfg.selector);
   if (!el || !cfg.items || !cfg.items.length) return;
 
-  const items = cfg.items.slice();
+  // Vorherige Instanz stoppen (falls doppelt initialisiert)
+  if (el._morph?.raf)   cancelAnimationFrame(el._morph.raf);
+  if (el._morph?.timer) clearTimeout(el._morph.timer);
+
+  const items    = cfg.items.slice();
   const interval = cfg.interval || 3000;
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
+  const chars    = "!<>-_\\/[]{}—=+*^?#________";
 
   let frame = 0;
   let queue = [];
   let current = items[0];
   let i = 0;
-  let requestId;
+  let rafId = 0;
+  let timerId = 0;
+  let firstPaintShown = false;
+
+  // Inhalt bis zum ersten „update“ verstecken → kein kurzzeitiges Mehrfach-Rendering
+  const prevVisibility = el.style.visibility;
+  el.style.visibility = "hidden";
 
   function setText(newText) {
     const length = Math.max(current.length, newText.length);
     queue = [];
     for (let j = 0; j < length; j++) {
-      const from = current[j] || "";
-      const to = newText[j] || "";
+      const from  = current[j] || "";
+      const to    = newText[j] || "";
       const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
+      const end   = start + Math.floor(Math.random() * 40);
       queue.push({ from, to, start, end, char: null });
     }
-    cancelAnimationFrame(requestId);
+    cancelAnimationFrame(rafId);
     frame = 0;
     update();
     current = newText;
@@ -278,6 +288,7 @@ InitUI.morphText = function (cfg) {
   function update() {
     let output = "";
     let complete = 0;
+
     for (let j = 0; j < queue.length; j++) {
       let { from, to, start, end, char } = queue[j];
       if (frame >= end) {
@@ -293,12 +304,20 @@ InitUI.morphText = function (cfg) {
         output += from;
       }
     }
+
     el.innerHTML = output;
+
+    // Ab dem ersten Frame wieder anzeigen
+    if (!firstPaintShown) {
+      el.style.visibility = prevVisibility || "";
+      firstPaintShown = true;
+    }
+
     if (complete === queue.length) {
-      setTimeout(next, interval);
+      timerId = setTimeout(next, interval);
     } else {
       frame++;
-      requestId = requestAnimationFrame(update);
+      rafId = requestAnimationFrame(update);
     }
   }
 
@@ -307,6 +326,10 @@ InitUI.morphText = function (cfg) {
     setText(items[i]);
   }
 
+  // State auf dem Element merken, damit eine spätere Init sauber abbrechen kann
+  el._morph = { raf: rafId, timer: timerId };
+
+  // sofort starten
   setText(items[0]);
 };
 
