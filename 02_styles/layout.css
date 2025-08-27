@@ -34,7 +34,7 @@
    Global: Typografie-Baseline
    =============================================================== */
 html {
-  /* Baseline skaliert: min 10px, fluid bis max 18px */
+
   font-size: clamp(8px, min(2vw, 3vh), 18px);
 }
 
@@ -44,7 +44,7 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background: transparent; /* wichtig: Sektionen sehen den Layer darunter */
+  background: transparent;
 }
 
 /* ===============================================================
@@ -123,7 +123,7 @@ body::before {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  overflow: visible; /* nichts wird abgeschnitten */
+  overflow: visible;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 
   z-index: 1;
@@ -227,9 +227,9 @@ body::before {
   border-radius: 0.6rem;
   background: radial-gradient(
   circle at 50% 0%,
-  oklch(0.35 0.03 260) 0%,   /* helleres Blau-Schwarz */
-  oklch(0.20 0.02 260) 65%,  /* tieferes Blau-Schwarz */
-  oklch(0.12 0.01 260) 100%  /* fast Body-Dunkel */
+  oklch(0.35 0.03 260) 0%,
+  oklch(0.20 0.02 260) 65%,
+  oklch(0.12 0.01 260) 100% 
 );
   border: 1px solid #1e2731;
   box-shadow:
@@ -272,7 +272,7 @@ body::before {
 }
 
 .ui-switch:has(input:checked) .ui-thumb {
-  transform: translate(1.35rem, -50%); /* weniger Weg nach rechts */
+  transform: translate(1.35rem, -50%);
 }
 
 /* ===============================================================
@@ -717,19 +717,19 @@ body::before {
 
 
 @media (max-width: 768px) {
-  /* Links/Rechts-Striche als reine Overlays (kein Layout-Einfluss) */
+
   #Showcase::before,
   #Showcase::after {
     content: "";
     position: absolute;
     top: 55%;
     transform: translateY(-50%);
-    width: 0.8rem;        /* dünner Strich */
-    height: 5rem;         /* Länge */
+    width: 0.8rem;    
+    height: 5rem;        
     background: rgba(255, 255, 255, 0.218);
     border-radius: 99rem;
-    pointer-events: none; /* klicks/swipes nicht blockieren */
-    z-index: 2;           /* über dem Board, unter Modals etc. */
+    pointer-events: none;
+    z-index: 2; 
     opacity: 0.6;
   }
 
@@ -807,15 +807,15 @@ Mobile */
     /* Visual */
     opacity: 0.75;
     line-height: 1.6;
-    max-width: clamp(16ch, 60%, 22ch); /* pyramidenförmig am Handy */
-    margin-inline: auto; /* zentrieren */
+    max-width: clamp(16ch, 60%, 22ch)
+    margin-inline: auto;
   }
 }
 /* ===============================================================
    showcase - Board - Grid)
    =============================================================== */
 
-/* mobile first */
+/* mobile */
 #dnd-board {
   margin-top: 10rem;
   margin-bottom: 2rem;
@@ -837,20 +837,19 @@ Mobile */
     scroll-snap-type: x mandatory;
 
     gap: 20rem;
-    /* REMOVE: padding-inline: calc((100% - 85%) / 2); */
+
     align-items: stretch;
     padding-block: 2rem;
 
-    /* ADD: */
+
     position: relative;
     overflow-y: hidden;
     scroll-snap-stop: always;
-    /* REMOVE: scroll-padding-inline: calc((100% - 85%) / 2); */
+
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 1.6rem), transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 1.6rem), transparent 100%);
   }
 
-  /* ADD: Flex-Spacer für exaktes Zentrieren von erster/letzter Karte */
   #dnd-board::before,
   #dnd-board::after {
     content: "";
@@ -1079,7 +1078,7 @@ Mobile */
   grid-template-columns: repeat(3, 1fr);
 }
 
-/* Mobile: Features als Pyramide (1 oben, 2 unten) */
+/* Mobile */
 @media (max-width: 768px) {
   #features .feat-grid {
     /* Size */
@@ -1294,7 +1293,6 @@ Mobile */
   transition: transform 0.25s ease, filter 0.25s ease;
   will-change: transform;
 
-  /* Visual */
 }
 
 .footer-group:hover {
@@ -1403,14 +1401,14 @@ Mobile */
 .contact-buttons {
   display: flex;
   flex-direction: column;
-  align-items: center; /* zentriert unter "Contact" */
+  align-items: center;
   gap: 0.5rem;
 }
 
 .contact-buttons .unlock-btn {
-  min-width: 6rem;   /* gleiche Breite */
+  min-width: 6rem;
   width: auto;
-  margin: 0;         /* keine Auto-Margins, Zentrierung kommt vom Container */
+  margin: 0;
 }
 
 .contact-mail {
@@ -1568,7 +1566,7 @@ body.legal-page {
   z-index: 0;
   pointer-events: none;
 
-  /* Hintergrund wie Startseite + zarte Gridlines */
+  /* background */
   background:
     radial-gradient(140% 160% at 50% -10%, #0d1015, #181d24 60%),
     linear-gradient(0deg, rgba(255,255,255,0.06) 1px, transparent 1px),
@@ -1660,7 +1658,7 @@ body.legal-page {
   padding-left: 1.2rem;
 }
 
-/* Links im Text – wie auf der Hauptseite */
+/* Links Text */
 .legal-content a {
   /* Behavior */
   text-decoration: none;
@@ -1694,7 +1692,7 @@ body.legal-page {
   justify-items: start;
 }
 
-/* Button-Gruppe untereinander, mittig */
+/* Button-Group */
 .contact-buttons {
   /* Behavior */
   display: flex;
@@ -1732,7 +1730,7 @@ body.legal-page {
   box-shadow: 0 0.5rem 1.3rem #7FD1FF47;
 }
 
-/* Mail-Link im entsperrten Bereich */
+/* Mail-Link */
 .contact-mail {
   /* Behavior */
   display: inline-block;
@@ -1759,7 +1757,7 @@ body.legal-page {
   padding: 0.1rem 0.3rem;
 }
 
-/* Adresse sauber darstellen (ohne Kursiv von <address>) */
+/* Adresse */
 .legal-address {
   /* Behavior */
   font-style: normal;
@@ -1865,7 +1863,7 @@ body.legal-page {
   }
 }
 
-  /* Footer — Legal (mobile: größere Links) */
+  /* Footer — Legal (mobile */
 @media (max-width: 768px) {
   .footer-bottom-legal a {
     font-size: 2rem;
