@@ -1,42 +1,47 @@
 /* ============================================================
    Init - Ui
    ============================================================ */
-
 export async function initUI() {
+  // deine bestehenden Inits
   initGlobalGridBackground();
   initUICard();
   initStatusbarClock();
   initFooterUnlock();
-  
 
-  // Helper, wartet bis Element existiert
+  // ---------- Helper: warten bis Element existiert ----------
   function waitForEl(selector, timeout = 4000) {
     return new Promise((resolve, reject) => {
-      const el = document.querySelector(selector);
-      if (el) return resolve(el);
+      const elNow = document.querySelector(selector);
+      if (elNow) return resolve(elNow);
       const obs = new MutationObserver(() => {
-        const e = document.querySelector(selector);
-        if (e) { obs.disconnect(); resolve(e); }
+        const el = document.querySelector(selector);
+        if (el) { obs.disconnect(); resolve(el); }
       });
       obs.observe(document.documentElement, { childList: true, subtree: true });
       setTimeout(() => { obs.disconnect(); reject(new Error("timeout")); }, timeout);
     });
   }
 
-  // Nur Features-Header morphen
+  // ---------- Features-Heading morphen (einmalig, richtiger Selector) ----------
   try {
-    await waitForEl("#features .feat-title", 3000);
-    InitUI.morphText({
-      selector: "#features .feat-title",
-      items: [
-        "Core Planning",
-        "Traditional Craft",
-        "Quality Materials"
-      ],
-      interval: 2600
-    });
+    // Doppel-Init verhindern
+    if (!document.documentElement.dataset.morphInit) {
+      const el = await waitForEl("#features .feat-h", 5000);
+      if (el && window.InitUI && typeof window.InitUI.morphText === "function") {
+        document.documentElement.dataset.morphInit = "1";
+        window.InitUI.morphText({
+          selector: "#features .feat-h",
+          items: [
+            "Core Planning",
+            "Traditional Craft",
+            "Quality Materials"
+          ],
+          interval: 2600
+        });
+      }
+    }
   } catch (e) {
-    console.warn("feat-title nicht gefunden:", e?.message || e);
+    console.warn("Morph-Heading nicht gefunden:", e?.message || e);
   }
 }
 /* ============================================================
@@ -324,5 +329,8 @@ document.querySelectorAll('.unlock-btn[data-unlock-target]').forEach(btn => {
     }
   });
 });
+
+
+
 
 
