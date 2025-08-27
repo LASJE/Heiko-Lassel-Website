@@ -243,13 +243,38 @@ function initFooterUnlock() {
 /* ============================================================
    features - Morph Text (robust, kein Flackern, single instance)
    ============================================================ */
-window.InitUI = window.InitUI || {};
+/* 1) Utilities */
+window.AppUtil = window.AppUtil || {};
+if (!window.AppUtil.waitForEl) {
+  window.AppUtil.waitForEl = function waitForEl(selector, timeout = 6000) {
+    return new Promise((resolve, reject) => {
+      const hit = document.querySelector(selector);
+      if (hit) return resolve(hit);
+      const obs = new MutationObserver(() => {
+        const el = document.querySelector(selector);
+        if (el) { obs.disconnect(); resolve(el); }
+      });
+      obs.observe(document.documentElement, { childList: true, subtree: true });
+      setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
+    });
+  };
+}
+if (!window.AppUtil.guardOnce) {
+  window.AppUtil.guardOnce = function guardOnce(key) {
+    const root = document.documentElement;
+    if (root.dataset[key]) return false;
+    root.dataset[key] = '1';
+    return true;
+  };
+}
 
-window.InitUI.morphText = function (cfg) {
+/* 2) Scramble-Engine */
+window.InitUI = window.InitUI || {};
+window.InitUI.morphText = function morphText(cfg) {
   const el = document.querySelector(cfg.selector);
   if (!el || !cfg.items || !cfg.items.length) return;
 
-  // Vorherige Instanz stoppen (falls doppelt initialisiert)
+  // laufende Instanz
   if (el._morph?.raf)   cancelAnimationFrame(el._morph.raf);
   if (el._morph?.timer) clearTimeout(el._morph.timer);
 
@@ -261,64 +286,64 @@ window.InitUI.morphText = function (cfg) {
   let queue = [];
   let current = items[0];
   let i = 0;
-  let rafId = 0;
-  let timerId = 0;
+
+  el._morph = { raf: 0, timer: 0 };
+
+  // First Paint
+  const prevVis = el.style.visibility;
+  el.style.visibility = "hidden";
   let firstPaintShown = false;
 
-  // Inhalt bis zum ersten „update“ verstecken → kein kurzzeitiges Mehrfach-Rendering
-  const prevVisibility = el.style.visibility;
-  el.style.visibility = "hidden";
-
   function setText(newText) {
-    const length = Math.max(current.length, newText.length);
-    queue = [];
-    for (let j = 0; j < length; j++) {
+    const len = Math.max(current.length, newText.length);
+    queue.length = 0;
+    for (let j = 0; j < len; j++) {
       const from  = current[j] || "";
       const to    = newText[j] || "";
       const start = Math.floor(Math.random() * 40);
       const end   = start + Math.floor(Math.random() * 40);
-      queue.push({ from, to, start, end, char: null });
+      queue.push({ from, to, start, end, char: "" });
     }
-    cancelAnimationFrame(rafId);
+    if (el._morph.raf) cancelAnimationFrame(el._morph.raf);
     frame = 0;
     update();
     current = newText;
   }
 
   function update() {
-    let output = "";
-    let complete = 0;
+    let out = "";
+    let done = 0;
 
     for (let j = 0; j < queue.length; j++) {
-      let { from, to, start, end, char } = queue[j];
-      if (frame >= end) {
-        complete++;
-        output += to;
-      } else if (frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = chars[Math.floor(Math.random() * chars.length)];
-          queue[j].char = char;
+      const q = queue[j];
+      if (frame >= q.end) {
+        done++;
+        out += q.to;
+      } else if (frame >= q.start) {
+        if (!q.char || Math.random() < 0.28) {
+          q.char = chars[Math.floor(Math.random() * chars.length)];
         }
-        output += `<span class="dud">${char}</span>`;
+         
+        out += q.char;
       } else {
-        output += from;
+        out += q.from;
       }
     }
 
-    el.innerHTML = output;
+    el.textContent = out;
 
-    // Ab dem ersten Frame wieder anzeigen
     if (!firstPaintShown) {
-      el.style.visibility = prevVisibility || "";
+      el.style.visibility = prevVis || "";
       firstPaintShown = true;
     }
 
-    if (complete === queue.length) {
-      timerId = setTimeout(next, interval);
+    if (done === queue.length) {
+      if (el._morph.timer) clearTimeout(el._morph.timer);
+      el._morph.timer = setTimeout(next, interval);
     } else {
-      frame++;
-      rafId = requestAnimationFrame(update);
+      el._morph.raf = requestAnimationFrame(update);
     }
+    frame++;
   }
 
   function next() {
@@ -326,12 +351,26 @@ window.InitUI.morphText = function (cfg) {
     setText(items[i]);
   }
 
-  // State auf dem Element merken, damit eine spätere Init sauber abbrechen kann
-  el._morph = { raf: rafId, timer: timerId };
-
-  // sofort starten
   setText(items[0]);
 };
+
+/* 3) Initialisierung Only .feat-title */
+export async function initMorphHeading() {
+  if (!window.AppUtil.guardOnce('morphInit')) return;
+
+  const sel = '#features .feat-title';
+
+  try {
+    await window.AppUtil.waitForEl(sel, 6000);
+    window.InitUI.morphText({
+      selector: sel,
+      items: ["Core Planning", "Traditional Craft", "Quality Materials"],
+      interval: 2600
+    });
+  } catch (e) {
+    console.warn('Morph-Ziel nicht gefunden:', e?.message || e);
+  }
+}
 
 // ============================================================
 // Showcase - karussell (defensiv gekapselt)
