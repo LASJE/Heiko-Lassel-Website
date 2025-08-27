@@ -1752,8 +1752,6 @@ body.legal-page {
 .contact-mail:hover {
   /* Visual */
   color: #FFFFFF;
-  background: #7FD1FF;
-  border-radius: 0.2rem;
   padding: 0.1rem 0.3rem;
 }
 
