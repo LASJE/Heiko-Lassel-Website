@@ -13,9 +13,9 @@ async function inject(selector, url, position='end'){
 
 document.addEventListener('DOMContentLoaded', async () => {
   try{
-    await inject('body', '01_src/header.html', 'start');
-    await inject('body', '01_src/main.html',   'end');
-    await inject('body', '01_src/footer.html', 'end');
+    await inject('body', '../01_src/header.html', 'start');
+    await inject('body', '../01_src/main.html',   'end');
+    await inject('body', '../01_src/footer.html', 'end');
     // nach dem Einfügen von header/main/footer:
     const { initUI } = await import('./ui.js');
     initUI();
@@ -27,5 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.appendChild(pre);
   }
 });
+
 
 
