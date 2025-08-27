@@ -242,32 +242,76 @@ function initFooterUnlock() {
 }
 
 
+
 /* ============================================================
-   MorphText robust starten (egal ob .feat-h oder .feat-title)
+   features - Morph Text (Definition)
    ============================================================ */
-async function initMorphHeading() {
-  // nur 1x
-  if (!guardOnce('morphInit')) return;
+window.InitUI = window.InitUI || {};
 
-  // suche flexibel: zuerst .feat-h, sonst .feat-title
-  let sel = '#features .feat-h';
-  if (!document.querySelector(sel)) sel = '#features .feat-title';
+window.InitUI.morphText = function (cfg) {
+  const el = document.querySelector(cfg.selector);
+  if (!el || !cfg.items || !cfg.items.length) return;
 
-  try {
-    await waitForEl(sel, 6000);
-    if (window.InitUI && typeof window.InitUI.morphText === 'function') {
-      window.InitUI.morphText({
-        selector: sel,
-        items: ["Core Planning", "Traditional Craft", "Quality Materials"],
-        interval: 2600
-      });
-    } else {
-      console.warn('InitUI.morphText fehlt (Reihenfolge!)');
+  const items = cfg.items.slice();
+  const interval = cfg.interval || 3000;
+  const chars = "!<>-_\\/[]{}—=+*^?#________";
+
+  let frame = 0;
+  let queue = [];
+  let current = items[0];
+  let i = 0;
+  let requestId;
+
+  function setText(newText) {
+    const length = Math.max(current.length, newText.length);
+    queue = [];
+    for (let j = 0; j < length; j++) {
+      const from = current[j] || "";
+      const to = newText[j] || "";
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      queue.push({ from, to, start, end, char: null });
     }
-  } catch (e) {
-    console.warn('Morph-Heading nicht gefunden:', e?.message || e);
+    cancelAnimationFrame(requestId);
+    frame = 0;
+    update();
+    current = newText;
   }
-}
+
+  function update() {
+    let output = "";
+    let complete = 0;
+    for (let j = 0; j < queue.length; j++) {
+      let { from, to, start, end, char } = queue[j];
+      if (frame >= end) {
+        complete++;
+        output += to;
+      } else if (frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = chars[Math.floor(Math.random() * chars.length)];
+          queue[j].char = char;
+        }
+        output += `<span class="dud">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+    el.innerHTML = output;
+    if (complete === queue.length) {
+      setTimeout(next, interval);
+    } else {
+      frame++;
+      requestId = requestAnimationFrame(update);
+    }
+  }
+
+  function next() {
+    i = (i + 1) % items.length;
+    setText(items[i]);
+  }
+
+  setText(items[0]);
+};
 
 /* ============================================================
    Showcase - karussell
