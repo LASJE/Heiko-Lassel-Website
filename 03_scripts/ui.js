@@ -1,49 +1,44 @@
 /* ============================================================
-   Init - Ui
+   Öffentliche Init (von deinem bootstrap.js aufrufen)
    ============================================================ */
 export async function initUI() {
-  // deine bestehenden Inits
-  initGlobalGridBackground();
-  initUICard();
-  initStatusbarClock();
-  initFooterUnlock();
+  // deine bestehenden Inits zuerst
+  try { initGlobalGridBackground(); } catch(e){}
+  try { initUICard(); } catch(e){}
+  try { initStatusbarClock(); } catch(e){}
+  try { initFooterUnlock(); } catch(e){}   // stabilisiert
 
-  // ---------- Helper: warten bis Element existiert ----------
-  function waitForEl(selector, timeout = 4000) {
-    return new Promise((resolve, reject) => {
-      const elNow = document.querySelector(selector);
-      if (elNow) return resolve(elNow);
-      const obs = new MutationObserver(() => {
-        const el = document.querySelector(selector);
-        if (el) { obs.disconnect(); resolve(el); }
-      });
-      obs.observe(document.documentElement, { childList: true, subtree: true });
-      setTimeout(() => { obs.disconnect(); reject(new Error("timeout")); }, timeout);
-    });
-  }
-
-  // ---------- Features-Heading morphen (einmalig, richtiger Selector) ----------
-  try {
-    // Doppel-Init verhindern
-    if (!document.documentElement.dataset.morphInit) {
-      const el = await waitForEl("#features .feat-h", 5000);
-      if (el && window.InitUI && typeof window.InitUI.morphText === "function") {
-        document.documentElement.dataset.morphInit = "1";
-        window.InitUI.morphText({
-          selector: "#features .feat-h",
-          items: [
-            "Core Planning",
-            "Traditional Craft",
-            "Quality Materials"
-          ],
-          interval: 2600
-        });
-      }
-    }
-  } catch (e) {
-    console.warn("Morph-Heading nicht gefunden:", e?.message || e);
-  }
+  // danach: warten bis DOM da ist, dann Feature-Inits
+  await Promise.allSettled([
+    initMorphHeading(),
+    initDnDBoard()
+  ]);
 }
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+async function waitForEl(selector, timeout = 6000) {
+  return new Promise((resolve, reject) => {
+    const now = document.querySelector(selector);
+    if (now) return resolve(now);
+    const obs = new MutationObserver(() => {
+      const el = document.querySelector(selector);
+      if (el) { obs.disconnect(); resolve(el); }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+    setTimeout(() => { obs.disconnect(); reject(new Error('timeout')); }, timeout);
+  });
+}
+
+// Einmal-Init-Guard
+function guardOnce(key) {
+  const root = document.documentElement;
+  if (root.dataset[key]) return false;
+  root.dataset[key] = '1';
+  return true;
+}
+
 /* ============================================================
    Global - Grid background 
    ============================================================ */
@@ -137,30 +132,55 @@ export function initUICard() {
 }
 
 /* ============================================================
-   Hero - Dnd board
+   DnD-Board — init erst NACHDEM das Board existiert
    ============================================================ */
+async function initDnDBoard() {
+  if (!guardOnce('dndInit')) return;
 
-  import Sortable from "https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/modular/sortable.esm.js";
+  // Board abwarten (Bootstrap hängt DOM ein)
+  let board;
+  try {
+    board = await waitForEl('#dnd-board', 8000);
+  } catch {
+    // Kein Board? dann raus.
+    return;
+  }
 
-  const board = document.getElementById("dnd-board");
+  // Sortable erst laden, wenn wirklich gebraucht
+  let Sortable;
+  try {
+    ({ default: Sortable } = await import('https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/modular/sortable.esm.js'));
+  } catch (e) {
+    console.error('SortableJS Import fehlgeschlagen:', e);
+    return;
+  }
 
-  // A–G: ganze Sektionen per Überschrift ziehen (reihenfolge in Grid)
-  Sortable.create(board, {
-    animation: 140,
-    handle: ".handle",
-    ghostClass: "ghost",
-    dragClass: "sortable-chosen"
-  });
-
-  // Items: zwischen allen Sektionen verschiebbar
-  board.querySelectorAll(".stack").forEach((stack) => {
-    Sortable.create(stack, {
-      animation: 120,
-      group: { name: "units", pull: true, put: true },
-      ghostClass: "ghost",
-      dragClass: "sortable-chosen"
+  // Sektionen (Cluster) via Handle sortieren
+  try {
+    Sortable.create(board, {
+      animation: 140,
+      handle: '.handle',
+      ghostClass: 'ghost',
+      dragClass: 'sortable-chosen'
     });
+  } catch (e) {
+    console.error('Sortable Board-Init fehlgeschlagen:', e);
+  }
+
+  // Items zwischen Stacks verschieben
+  board.querySelectorAll('.stack').forEach(stack => {
+    try {
+      Sortable.create(stack, {
+        animation: 120,
+        group: { name: 'units', pull: true, put: true },
+        ghostClass: 'ghost',
+        dragClass: 'sortable-chosen'
+      });
+    } catch (e) {
+      console.error('Sortable Stack-Init fehlgeschlagen:', e);
+    }
   });
+}
 
   /* ============================================================
    Statusbar - Clock Livetime 
@@ -188,121 +208,66 @@ function initStatusbarClock(root = document) {
   tick(); // Initiales Setzen
 }
 
-  /* ============================================================
-   Footer - Unlock Mail
+/* ============================================================
+   Footer: Unlock-Mail stabil & einmalig
    ============================================================ */
-// Footer-Mail Toggle (robust, ohne HTML-Änderung, verhindert alte Handler)
-(() => {
-  if (window.__footerUnlockBound) return;
-  window.__footerUnlockBound = true;
+function initFooterUnlock() {
+  if (!guardOnce('footerUnlockInit')) return;
 
-  document.addEventListener('click', (ev) => {
-    const btn = ev.target.closest('#footer .footer-contact .unlock-btn[data-unlock-target="contact"]');
-    if (!btn) return;
+  const footer = document.getElementById('footer');
+  if (!footer) return;
 
-    // blockiert ältere/konkurrierende Click-Handler
-    ev.preventDefault();
-    ev.stopPropagation();
-    ev.stopImmediatePropagation();
+  const btn = footer.querySelector('.unlock-btn[data-unlock-target="contact"]') || footer.querySelector('.unlock-btn');
+  const unlocked = document.getElementById('contact-unlocked');
+  const lockedWrap = document.getElementById('contact-locked');
+  if (!btn || !unlocked || !lockedWrap) return;
 
-    const group = btn.closest('.footer-contact');
-    const list  = group && group.querySelector('#contact-unlocked');
-    if (!list) return;
+  // Initialzustand
+  btn.setAttribute('aria-expanded', 'false');
+  unlocked.hidden = true;
+  lockedWrap.hidden = false;
 
-    const showLabel = btn.dataset.labelShow || 'E-Mail anzeigen';
-    const hideLabel = btn.dataset.labelHide || 'E-Mail verbergen';
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const next = !expanded;
+    btn.setAttribute('aria-expanded', String(next));
+    unlocked.hidden = !next;
+    lockedWrap.hidden = next;
 
-    // Default einmal sauber setzen
-    if (!btn.hasAttribute('aria-expanded')) {
-      btn.setAttribute('aria-expanded', 'false');
-      btn.textContent = showLabel;
-      list.hidden = true;
-    }
+    // Optional: Button-Label aus data-Attributen nehmen, falls vorhanden
+    const showLbl = btn.dataset.labelShow || 'E-Mail anzeigen';
+    const hideLbl = btn.dataset.labelHide || 'E-Mail verbergen';
+    btn.textContent = next ? hideLbl : showLbl;
+  }, { passive: true });
+}
 
-    const isOpen = btn.getAttribute('aria-expanded') === 'true';
-
-    // TOGGLE
-    if (isOpen) {
-      list.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
-      btn.textContent = showLabel;
-    } else {
-      list.hidden = false;
-      btn.setAttribute('aria-expanded', 'true');
-      btn.textContent = hideLabel;
-    }
-  }, true); // capture=true, damit wir vor bubblenden Alt-Handlern drankommen
-})();
 
 /* ============================================================
-   features - Morph Text 
+   MorphText robust starten (egal ob .feat-h oder .feat-title)
    ============================================================ */
-window.InitUI = window.InitUI || {};
+async function initMorphHeading() {
+  // nur 1x
+  if (!guardOnce('morphInit')) return;
 
-InitUI.morphText = function (cfg) {
-  const el = document.querySelector(cfg.selector);
-  if (!el || !cfg.items || !cfg.items.length) return;
+  // suche flexibel: zuerst .feat-h, sonst .feat-title
+  let sel = '#features .feat-h';
+  if (!document.querySelector(sel)) sel = '#features .feat-title';
 
-  const items = cfg.items.slice();
-  const interval = cfg.interval || 3000;
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-
-  let frame = 0;
-  let queue = [];
-  let current = items[0];
-  let i = 0;
-  let requestId;
-
-  function setText(newText) {
-    const length = Math.max(current.length, newText.length);
-    queue = [];
-    for (let j = 0; j < length; j++) {
-      const from = current[j] || "";
-      const to = newText[j] || "";
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
-      queue.push({ from, to, start, end, char: null });
-    }
-    cancelAnimationFrame(requestId);
-    frame = 0;
-    update();
-    current = newText;
-  }
-
-  function update() {
-    let output = "";
-    let complete = 0;
-    for (let j = 0; j < queue.length; j++) {
-      let { from, to, start, end, char } = queue[j];
-      if (frame >= end) {
-        complete++;
-        output += to;
-      } else if (frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = chars[Math.floor(Math.random() * chars.length)];
-          queue[j].char = char;
-        }
-        output += `<span class="dud">${char}</span>`;
-      } else {
-        output += from;
-      }
-    }
-    el.innerHTML = output;
-    if (complete === queue.length) {
-      setTimeout(next, interval);
+  try {
+    await waitForEl(sel, 6000);
+    if (window.InitUI && typeof window.InitUI.morphText === 'function') {
+      window.InitUI.morphText({
+        selector: sel,
+        items: ["Core Planning", "Traditional Craft", "Quality Materials"],
+        interval: 2600
+      });
     } else {
-      frame++;
-      requestId = requestAnimationFrame(update);
+      console.warn('InitUI.morphText fehlt (Reihenfolge!)');
     }
+  } catch (e) {
+    console.warn('Morph-Heading nicht gefunden:', e?.message || e);
   }
-
-  function next() {
-    i = (i + 1) % items.length;
-    setText(items[i]);
-  }
-
-  setText(items[0]);
-};
+}
 
 /* ============================================================
    Showcase - karussell
